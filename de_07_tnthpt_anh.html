@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KỲ THI TỐT NGHIỆP THPT - MÔN TIẾNG ANH - ĐỀ SỐ 07</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f4f5f7;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .selectable-text {
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+        }
+
+        .aplus-brand {
+            color: #0f5132;
+            font-weight: 900;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .header-top {
+            height: 56px;
+            background: #ffffff;
+            border-bottom: 1px solid #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 20;
+        }
+
+        .part-header-banner {
+            background-color: #f3f4f6;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0.6rem 1.5rem;
+            font-size: 0.9rem;
+            color: #1f2937;
+            font-weight: 500;
+        }
+
+        .main-workspace {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .passage-pane {
+            overflow-y: auto;
+            padding: 2rem;
+            background: #f9fafb;
+            border-right: 1px solid #e5e7eb;
+        }
+
+        .questions-pane {
+            overflow-y: auto;
+            padding: 2rem;
+            background: #ffffff;
+        }
+
+        .resizer {
+            width: 8px;
+            background: #e5e7eb;
+            cursor: col-resize;
+            transition: background 0.2s;
+            position: relative;
+            z-index: 10;
+        }
+        .resizer:hover, .resizer.resizing {
+            background: #0f5132;
+        }
+
+        .ielts-highlight {
+            background-color: #fef08a;
+            color: #1e293b;
+            padding: 0 2px;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .idp-popover {
+            position: absolute;
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            z-index: 100;
+            padding: 4px;
+        }
+
+        .idp-popover-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            color: #4b5563;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.15s;
+        }
+
+        .idp-popover-btn:hover {
+            background-color: #f3f4f6;
+            color: #111827;
+        }
+
+        .test-footer {
+            height: 60px;
+            background: #ffffff;
+            border-top: 1px solid #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 20;
+        }
+
+        .nav-part-btn {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #374151;
+            border-radius: 4px;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .nav-part-btn.active {
+            color: #0f5132;
+            background-color: #e8f5e9;
+        }
+
+        .q-square {
+            width: 26px;
+            height: 26px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid #9ca3af;
+            border-radius: 3px;
+            background: #fff;
+            color: #374151;
+            cursor: pointer;
+            margin: 0 2px;
+        }
+
+        .q-square.answered {
+            background-color: #0f5132;
+            color: #ffffff;
+            font-weight: 700;
+            border-color: #0f5132;
+        }
+
+        .q-square.active {
+            border: 2px solid #f97316;
+            color: #f97316;
+            font-weight: 700;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .idp-radio-label {
+            display: flex;
+            align-items: flex-start;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 6px;
+            transition: all 0.15s;
+        }
+        .idp-radio-label:hover {
+            background-color: #f3f4f6;
+            border-color: #d1d5db;
+        }
+        .idp-radio-label.selected {
+            background-color: #f0fdf4;
+            border-color: #16a34a;
+        }
+        .idp-radio-label input[type="radio"] {
+            margin-top: 3px;
+            margin-right: 12px;
+            accent-color: #0f5132;
+            width: 16px;
+            height: 16px;
+        }
+    </style>
+    <!-- React CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useCallback, useRef } = React;
+
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwUv3CY-PXc2OjS69BQ1K0Xz6s4YQisQYruj_J29K0kqIL5feLRInX3rb5c2sXn0uj_/exec";
+
+        const CORRECT_ANSWERS = {
+            1: "A", 2: "A", 3: "A", 4: "B", 5: "B", 6: "B",
+            7: "C", 8: "A", 9: "B", 10: "B", 11: "B", 12: "C",
+            13: "B", 14: "A", 15: "A", 16: "A", 17: "A",
+            18: "A", 19: "A", 20: "C", 21: "A", 22: "C",
+            23: "C", 24: "C", 25: "A", 26: "B", 27: "B", 28: "C", 29: "C", 30: "D",
+            31: "B", 32: "C", 33: "A", 34: "A", 35: "B", 36: "B", 37: "B", 38: "C", 39: "B", 40: "A"
+        };
+
+        const EXPLANATIONS = {
+            1: "Cần tính từ 'active' bổ nghĩa cho danh từ 'role' (active role: vai trò tích cực).",
+            2: "Cụm động từ cố định 'integrate into' có nghĩa là hòa nhập/hội nhập vào.",
+            3: "Trật tự tính từ OSASCOMP: Opinion (creative) - Size (big) - Age (new). Chọn 'creative big new'.",
+            4: "Rút gọn mệnh đề quan hệ dạng chủ động: 'who are participating' -> 'participating'.",
+            5: "Động từ 'help' đi với To-V hoặc Bare-V. Ở đây chọn 'to cooperate' để thể hiện mục đích.",
+            6: "Tính từ 'prosperous' (thịnh vượng) mô tả một tương lai kinh tế vững mạnh, phù hợp ngữ cảnh.",
+            7: "Thì Hiện tại hoàn thành tiếp diễn: has been + V-ing -> 'strengthening'.",
+            8: "Phrasal verb 'brought about' nghĩa là mang lại/tạo ra (mang lại các hiệp định thương mại mới).",
+            9: "Cụm từ chỉ nguyên nhân tích cực 'Thanks to' (Nhờ vào hoạt động ngoại giao chủ động).",
+            10: "Tính từ 'effective' (hiệu quả) thể hiện mối quan hệ hợp tác tích cực với các quốc gia.",
+            11: "Dùng 'much' bổ nghĩa cho danh từ không đếm được 'support'.",
+            12: "Dùng 'number' đi với danh từ đếm được số nhiều 'representatives' (the number of representatives).",
+            13: "Hội thoại hợp logic: An giới thiệu đề tài nghiên cứu (a) -> Hoa khen đề tài và nêu tác dụng (b) -> An xác nhận và nhận việc tìm báo cáo (c).",
+            14: "Trật tự hội thoại logic: Minh nêu chủ đề hội nghị MUN (a) -> Trang gợi ý xem lại thỏa thuận (b) -> Minh nhận soạn bài lập trường (c) -> Trang nhận chuẩn bị phát biểu (d) -> Minh đề xuất phối hợp trang phục (e).",
+            15: "Trật tự lá thư đề xuất hợp tác: Giới thiệu nhu cầu hợp tác (b) -> Đề xuất buổi hội thảo chung (a) -> Mô tả nội dung chương trình (c) -> Đề xuất thời gian bắt đầu (d) -> Xin lịch hẹn thảo luận ngân sách (e).",
+            16: "Mạch văn đoạn văn: Giới thiệu quan hệ đối tác quốc tế (a) -> Ví dụ phân phối vắc xin (b) -> Bổ sung về đào tạo nhân viên (c) -> Nhấn mạnh sự tham gia của cộng đồng (d) -> Kết luận về cơ chế phản hồi (e).",
+            17: "Trật tự hội thoại đàm phán: Đại biểu A nêu đề xuất cảnh báo bão (a) -> Đại biểu B tán thành (b) -> Đại biểu A đề xuất trao đổi đào tạo (c) -> Đại biểu B bàn về chia sẻ kinh phí (d) -> Đại biểu A đồng ý chốt kế hoạch (e).",
+            18: "Mệnh đề quan hệ sở hữu cho danh từ chỉ vật/quốc gia 'Vietnam': 'whose contributions are increasing...'. Động từ chính 'is becoming' số ít.",
+            19: "Mệnh đề quan hệ chỉ nơi chốn/khung tổ chức: 'ASEAN, where Vietnam has been a member...'.",
+            20: "Cấu trúc bị động thì Hiện tại hoàn thành: 'support has been given by Vietnam to...'.",
+            21: "Mệnh đề quan hệ sở hữu miêu tả chuyên gia: 'whose knowledge is respected'.",
+            22: "Chủ ngữ số nhiều 'These joint activities' đi với động từ số nhiều thì Hiện tại đơn: 'prove'.",
+            23: "Câu gạch chân khẳng định việc trở thành thành viên các tổ chức quốc tế đã củng cố vị thế ngoại giao và kinh tế của Việt Nam.",
+            24: "'Hợp tác quân sự' (military cooperation) KHÔNG được đề cập làm lợi ích của việc gia nhập ASEAN.",
+            25: "Từ 'facilitates' (tạo điều kiện/thúc đẩy) đồng nghĩa với 'promotes'.",
+            26: "Từ 'sophisticated' (tinh vi, phức tạp) trái nghĩa với 'simple' (đơn giản).",
+            27: "Từ quy chiếu 'these' ở đoạn 3 chỉ 'partnerships' (các quan hệ đối tác với LHQ, WTO, WB).",
+            28: "Đoạn 4 nêu rõ Việt Nam phải cẩn trọng cân bằng giữa lợi ích quốc gia và các nghĩa vụ quốc tế.",
+            29: "Đoạn 3 thảo luận về sự tham gia của Việt Nam vào các tổ chức toàn cầu cụ thể (LHQ, WTO, WB).",
+            30: "Đoạn 4 phân tích các thách thức phức tạp của hợp tác quốc tế.",
+            31: "Câu chèn 'This transformation reflects...' giải thích chuyển biến chiến lược, đặt tại [II] ngay sau câu nêu chính sách tự do hóa kinh tế làm thay đổi chiến lược hợp tác.",
+            32: "'Chương trình trao đổi văn hóa' (cultural exchange programs) KHÔNG được nhắc đến trong đoạn 2 như lợi ích của ASEAN.",
+            33: "Đoạn 3 tóm tắt: Sự tham gia LHQ giúp Việt Nam đóng góp góc nhìn nước đang phát triển và tham gia gìn giữ hòa bình, nâng cao uy tín ngoại giao và tạo trải nghiệm đa văn hóa.",
+            34: "Cụm 'these missions' ở đoạn 3 quy chiếu đến 'Peacekeeping contributions' (các đóng góp gìn giữ hòa bình).",
+            35: "Từ 'accelerated' (tăng tốc, nhanh lên) đồng nghĩa với 'sped up'.",
+            36: "Phương án B diễn giải chính xác và trọn vẹn câu gạch chân về nguồn vốn WB và ADB hỗ trợ giao thông, năng lượng tái tạo và cải thiện giáo dục.",
+            37: "Từ 'autonomous' (tự chủ, độc lập) trái nghĩa với 'dependent' (phụ thuộc).",
+            38: "Bài viết khẳng định Việt Nam triển khai lực lượng gìn giữ hòa bình ở Châu Phi và Trung Đông.",
+            39: "Suy luận từ bài: Hội nhập thành công đòi hỏi Việt Nam phải cân bằng giữa hợp tác đa phương và giữ vững chủ quyền, tự chủ quyết sách.",
+            40: "Tóm tắt bao quát toàn bài: Hội nhập quốc tế của Việt Nam thông qua ASEAN, LHQ và đối tác tài chính thúc đẩy phát triển nhưng yêu cầu cân bằng chủ quyền."
+        };
+
+        const SetupScreen = ({ onStartTest }) => {
+            const [code, setCode] = useState('');
+            const [name, setName] = useState('');
+            const [error, setError] = useState('');
+
+            const handleSubmit = () => {
+                if (!code.trim() || !name.trim()) {
+                    setError('Vui lòng nhập đầy đủ Mã thí sinh / Lớp và Họ tên.');
+                    return;
+                }
+                onStartTest(code, name);
+            };
+
+            return (
+                <div className="fixed inset-0 bg-gray-100 flex items-center justify-center p-4 z-50">
+                    <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md border-t-4 border-[#0f5132]">
+                        <div className="text-center mb-6">
+                            <h2 className="text-xl font-black text-[#0f5132] tracking-wide">TRUNG TÂM NGOẠI NGỮ APLUS</h2>
+                            <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">Kỳ Thi Tốt Nghiệp THPT Quốc Gia</p>
+                            <h1 className="text-2xl font-black text-gray-800 mt-2">MÔN TIẾNG ANH - ĐỀ SỐ 07</h1>
+                            <p className="text-xs text-gray-600 mt-1">Thời gian làm bài: 50 phút | Mã đề: 1126</p>
+                        </div>
+                        
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-700 mb-1">Mã số Thí sinh / Lớp</label>
+                                <input 
+                                    type="text" 
+                                    value={code}
+                                    onChange={(e) => setCode(e.target.value)}
+                                    className="block w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-[#0f5132] focus:border-[#0f5132] text-sm" 
+                                    placeholder="Ví dụ: 12A1 / TS2026"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-700 mb-1">Họ và Tên Thí sinh</label>
+                                <input 
+                                    type="text" 
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className="block w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-[#0f5132] focus:border-[#0f5132] text-sm" 
+                                    placeholder="Ví dụ: Phan Ngọc Huy"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="mt-4 bg-amber-50 p-3 rounded-lg border border-amber-200 text-xs text-amber-800">
+                            <strong>⚠️ Lưu ý kỳ thi:</strong> Bật chế độ Toàn màn hình (Fullscreen). Hệ thống sẽ tự động ghi nhận nếu thí sinh chuyển tab hoặc thoát màn hình làm bài.
+                        </div>
+                        
+                        {error && <p className="text-red-500 text-xs mt-3 text-center font-bold">{error}</p>}
+                        
+                        <button 
+                            onClick={handleSubmit}
+                            className="mt-6 w-full bg-[#0f5132] text-white py-3.5 rounded-lg font-bold hover:bg-[#0b3d26] transition-colors shadow-lg flex items-center justify-center space-x-2"
+                        >
+                            <span>BẮT ĐẦU LÀM BÀI (FULLSCREEN)</span>
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [appState, setAppState] = useState('setup');
+            const [candidate, setCandidate] = useState({ code: '', name: '' });
+            const [answers, setAnswers] = useState({});
+            const [currentPart, setCurrentPart] = useState(1);
+            const [timeLeft, setTimeLeft] = useState(50 * 60);
+            const [warningCount, setWarningCount] = useState(0);
+            const [showWarningModal, setShowWarningModal] = useState(false);
+            const [isSubmitted, setIsSubmitted] = useState(false);
+            const [isSubmitting, setIsSubmitting] = useState(false);
+            const [submitStatus, setSubmitStatus] = useState('');
+            const [isNotesOpen, setIsNotesOpen] = useState(false);
+            const [notesText, setNotesText] = useState('');
+
+            // Resizable split pane width percentage
+            const [leftWidth, setLeftWidth] = useState(48);
+            const isResizing = useRef(false);
+
+            const [popover, setPopover] = useState({ visible: false, x: 0, y: 0, mode: 'create', node: null, text: '' });
+
+            const reEnterFullscreen = () => {
+                const elem = document.documentElement;
+                if (!document.fullscreenElement && elem.requestFullscreen) {
+                    elem.requestFullscreen().catch(() => {});
+                }
+            };
+
+            const handleCloseWarningModal = () => {
+                setShowWarningModal(false);
+                reEnterFullscreen();
+            };
+
+            // Anti copy & context menu
+            useEffect(() => {
+                const preventDefault = (e) => e.preventDefault();
+                document.addEventListener('contextmenu', preventDefault);
+                document.addEventListener('copy', preventDefault);
+                return () => {
+                    document.removeEventListener('contextmenu', preventDefault);
+                    document.removeEventListener('copy', preventDefault);
+                };
+            }, []);
+
+            // Resizer handlers
+            const startResizing = useCallback((e) => {
+                isResizing.current = true;
+                document.addEventListener('mousemove', handleMouseMove);
+                document.addEventListener('mouseup', stopResizing);
+            }, []);
+
+            const handleMouseMove = useCallback((e) => {
+                if (!isResizing.current) return;
+                const newWidth = (e.clientX / window.innerWidth) * 100;
+                if (newWidth > 20 && newWidth < 80) {
+                    setLeftWidth(newWidth);
+                }
+            }, []);
+
+            const stopResizing = useCallback(() => {
+                isResizing.current = false;
+                document.removeEventListener('mousemove', handleMouseMove);
+                document.removeEventListener('mouseup', stopResizing);
+            }, []);
+
+            // Highlight & Notes popover
+            const handleMouseUp = (e) => {
+                const target = e.target;
+                if (target.classList.contains('ielts-highlight')) {
+                    const rect = target.getBoundingClientRect();
+                    setPopover({
+                        visible: true,
+                        x: rect.left + window.scrollX + (rect.width / 2) - 40,
+                        y: rect.top + window.scrollY - 55,
+                        mode: 'delete',
+                        node: target,
+                        text: ''
+                    });
+                    return;
+                }
+
+                const selection = window.getSelection();
+                if (selection && selection.toString().trim().length > 0) {
+                    const range = selection.getRangeAt(0);
+                    const rect = range.getBoundingClientRect();
+                    setPopover({
+                        visible: true,
+                        x: rect.left + window.scrollX + (rect.width / 2) - 60,
+                        y: rect.top + window.scrollY - 55,
+                        mode: 'create',
+                        node: null,
+                        text: selection.toString().trim()
+                    });
+                } else if (!e.target.closest('.idp-popover')) {
+                    setPopover({ visible: false, x: 0, y: 0, mode: 'create', node: null, text: '' });
+                }
+            };
+
+            const applyHighlight = () => {
+                const selection = window.getSelection();
+                if (!selection.rangeCount) return;
+                const range = selection.getRangeAt(0);
+                const span = document.createElement('span');
+                span.className = 'ielts-highlight';
+                span.appendChild(range.extractContents());
+                range.insertNode(span);
+                selection.removeAllRanges();
+                setPopover({ visible: false, x: 0, y: 0, mode: 'create', node: null, text: '' });
+            };
+
+            const removeHighlight = () => {
+                if (popover.node) {
+                    const parent = popover.node.parentNode;
+                    while (popover.node.firstChild) {
+                        parent.insertBefore(popover.node.firstChild, popover.node);
+                    }
+                    parent.removeChild(popover.node);
+                }
+                setPopover({ visible: false, x: 0, y: 0, mode: 'create', node: null, text: '' });
+            };
+
+            const handleCreateNote = () => {
+                setIsNotesOpen(true);
+                if (popover.text) {
+                    setNotesText(prev => prev ? `${prev}\n- ${popover.text}` : `- ${popover.text}`);
+                }
+                setPopover({ visible: false, x: 0, y: 0, mode: 'create', node: null, text: '' });
+            };
+
+            // Anti-cheat detection
+            useEffect(() => {
+                if (appState !== 'testing' || isSubmitted) return;
+
+                const handleVisibilityChange = () => {
+                    if (document.hidden) {
+                        setWarningCount(prev => prev + 1);
+                        setShowWarningModal(true);
+                    }
+                };
+
+                const handleFullscreenChange = () => {
+                    if (!document.fullscreenElement && !isSubmitted) {
+                        setWarningCount(prev => prev + 1);
+                        setShowWarningModal(true);
+                    }
+                };
+
+                document.addEventListener('visibilitychange', handleVisibilityChange);
+                document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+                return () => {
+                    document.removeEventListener('visibilitychange', handleVisibilityChange);
+                    document.removeEventListener('fullscreenchange', handleFullscreenChange);
+                };
+            }, [appState, isSubmitted]);
+
+            // Countdown timer
+            useEffect(() => {
+                if (appState !== 'testing' || isSubmitted) return;
+                const timer = setInterval(() => {
+                    setTimeLeft(prev => {
+                        if (prev <= 1) {
+                            clearInterval(timer);
+                            handleSubmitTest();
+                            return 0;
+                        }
+                        return prev - 1;
+                    });
+                }, 1000);
+                return () => clearInterval(timer);
+            }, [appState, isSubmitted]);
+
+            const handleStartTest = (code, name) => {
+                setCandidate({ code, name });
+                setAppState('testing');
+                reEnterFullscreen();
+            };
+
+            const handleAnswerChange = (qNum, val) => {
+                setAnswers(prev => ({ ...prev, [qNum]: val }));
+            };
+
+            const countPartAnswered = (start, end) => {
+                let cnt = 0;
+                for (let i = start; i <= end; i++) {
+                    if (answers[i]) cnt++;
+                }
+                return cnt;
+            };
+
+            const handleSubmitTest = async () => {
+                setIsSubmitted(true);
+                setIsSubmitting(true);
+
+                let correctCount = 0;
+                Object.keys(CORRECT_ANSWERS).forEach(qNum => {
+                    if (answers[qNum] === CORRECT_ANSWERS[qNum]) {
+                        correctCount += 1;
+                    }
+                });
+
+                const finalScore = (correctCount * 0.25).toFixed(2);
+
+                const payload = {
+                    sheetName: "result",
+                    testType: "KỲ THI TNTHPT - TIẾNG ANH - ĐỀ SỐ 07",
+                    candidateCode: candidate.code,
+                    candidateName: candidate.name,
+                    correctCount: `${correctCount}/40`,
+                    score: finalScore,
+                    warningCount: warningCount
+                };
+
+                try {
+                    await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    setSubmitStatus('✅ Đã nộp bài & lưu kết quả thành công vào hệ thống!');
+                } catch (err) {
+                    setSubmitStatus('❌ Có lỗi khi gửi kết quả. Vui lòng chụp lại màn hình!');
+                } finally {
+                    setIsSubmitting(false);
+                }
+            };
+
+            const formatMinutesLeft = (seconds) => {
+                const m = Math.floor(seconds / 60);
+                const s = seconds % 60;
+                return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+            };
+
+            if (appState === 'setup') {
+                return <SetupScreen onStartTest={handleStartTest} />;
+            }
+
+            return (
+                <div className="h-screen flex flex-col" onMouseUp={handleMouseUp}>
+                    {/* Popover Menu for Text Highlight & Note */}
+                    {popover.visible && (
+                        <div className="idp-popover" style={{ top: `${popover.y}px`, left: `${popover.x}px` }}>
+                            {popover.mode === 'create' ? (
+                                <>
+                                    <button onClick={handleCreateNote} className="idp-popover-btn border-r">
+                                        <svg className="w-4 h-4 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                                        Ghi chú
+                                    </button>
+                                    <button onClick={applyHighlight} className="idp-popover-btn">
+                                        <svg className="w-4 h-4 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                                        Highlight
+                                    </button>
+                                </>
+                            ) : (
+                                <button onClick={removeHighlight} className="idp-popover-btn text-red-600">
+                                    <svg className="w-4 h-4 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    Xóa Highlight
+                                </button>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Anti-cheat Warning Modal */}
+                    {showWarningModal && (
+                        <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-[999] backdrop-blur-sm">
+                            <div className="bg-white rounded-xl p-6 max-w-md w-full shadow-2xl border-t-8 border-red-600 text-center">
+                                <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                </div>
+                                <h3 className="text-xl font-bold text-gray-900 mb-2">CẢNH BÁO VI PHẠM KỲ THI</h3>
+                                <p className="text-sm text-gray-600 mb-4">
+                                    Hệ thống phát hiện bạn vừa <strong>chuyển tab</strong> hoặc <strong>thoát Toàn màn hình (Fullscreen)</strong>.
+                                </p>
+                                <div className="bg-red-50 text-red-700 p-3 rounded-lg font-bold text-xs mb-6 border border-red-200">
+                                    Số lần vi phạm ghi nhận: {warningCount}
+                                </div>
+                                <button 
+                                    onClick={handleCloseWarningModal}
+                                    className="w-full bg-[#0f5132] hover:bg-[#0b3d26] text-white py-3 rounded-lg font-bold transition-all shadow-md flex items-center justify-center space-x-2"
+                                >
+                                    <span>Quay lại bài thi (Mở Fullscreen)</span>
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Top Header */}
+                    <header className="header-top">
+                        <div className="flex items-center space-x-6">
+                            <div className="aplus-brand">APLUS</div>
+                            <div className="text-xs text-gray-700 font-medium">
+                                Thí sinh: <span className="font-bold text-gray-900">{candidate.name} ({candidate.code})</span>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center space-x-2 bg-amber-50 border border-amber-200 px-4 py-1.5 rounded-full">
+                            <span className="text-xs font-semibold text-amber-800">Thời gian còn lại:</span>
+                            <span className="font-black text-base text-[#f97316]">{formatMinutesLeft(timeLeft)}</span>
+                        </div>
+
+                        <div className="flex items-center space-x-4 text-gray-600">
+                            {warningCount > 0 && (
+                                <span className="text-xs bg-red-100 text-red-700 px-2.5 py-1 rounded-full font-bold border border-red-300">
+                                    Vi phạm: {warningCount}
+                                </span>
+                            )}
+                            <svg 
+                                className={`w-5 h-5 cursor-pointer ${isNotesOpen ? 'text-[#0f5132]' : 'hover:text-gray-900'}`} 
+                                fill="none" 
+                                stroke="currentColor" 
+                                viewBox="0 0 24 24"
+                                onClick={() => setIsNotesOpen(!isNotesOpen)}
+                                title="Ghi chú"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </div>
+                    </header>
+
+                    {/* Part Title Banner */}
+                    <div className="part-header-banner flex justify-between items-center">
+                        <div>
+                            <span className="font-bold text-[#0f5132]">
+                                {currentPart === 1 && "Dạng 1: Đọc Điền Thông Báo (Câu 1 - 6)"}
+                                {currentPart === 2 && "Dạng 2: Đọc Điền Tờ Rơi (Câu 7 - 12)"}
+                                {currentPart === 3 && "Dạng 3: Sắp Xếp Đoạn Hội Thoại / Thư / Đoạn Văn (Câu 13 - 17)"}
+                                {currentPart === 4 && "Dạng 4: Đọc Điền Khuyết Thông Tin (Câu 18 - 22)"}
+                                {currentPart === 5 && "Dạng 5: Đọc Hiểu 8 Câu (Câu 23 - 30)"}
+                                {currentPart === 6 && "Dạng 6: Đọc Hiểu 10 Câu (Câu 31 - 40)"}
+                            </span>
+                        </div>
+                        <div className="text-xs text-gray-500 font-medium">
+                            Kéo thanh giữa để thay đổi độ rộng 2 bảng
+                        </div>
+                    </div>
+
+                    {/* Main Resizable Workspace */}
+                    <div className="main-workspace">
+                        {/* Left Pane: Passage Context */}
+                        <div 
+                            className="passage-pane custom-scrollbar selectable-text" 
+                            style={{ width: `${leftWidth}%` }}
+                        >
+                            {currentPart === 1 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">READING PASSAGE 1</h3>
+                                    <p className="text-sm text-gray-600 italic">Read the following passage and mark the letter A, B, C, or D on your answer sheet to indicate the option that best fits each of the numbered blanks from 1 to 6.</p>
+                                    
+                                    <div className="bg-white p-6 rounded-xl border shadow-sm leading-relaxed text-base text-gray-800 space-y-3">
+                                        <p>
+                                            Over the past few decades, Vietnam's <strong>(1) ____________</strong> role in the international community has grown significantly. By joining key organisations like the United Nations and ASEAN, Vietnam has actively demonstrated its commitment to global peace and development. These memberships have allowed the country to integrate <strong>(2) ____________</strong> the global economy and collaborate on pressing issues such as climate change and human rights. At the last ASEAN summit, Vietnam proposed a <strong>(3) ____________</strong> plan to address regional security challenges. Furthermore, Vietnam has sent its military personnel <strong>(4) ____________</strong> in UN peacekeeping missions. This is a testament to the country's dedication to global cooperation. Being a member of international organizations has also helped Vietnam <strong>(5) ____________</strong> with its partners, creating new opportunities for trade and cultural exchange. Through these efforts, Vietnam is not only contributing to the world but also securing a more <strong>(6) ____________</strong> future for its people.
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {currentPart === 2 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">READING PASSAGE 2 (BROCHURE)</h3>
+                                    <p className="text-sm text-gray-600 italic">Read the following passage and mark the letter A, B, C, or D on your answer sheet to indicate the option that best fits each of the numbered blanks from 7 to 12.</p>
+                                    
+                                    <div className="bg-white p-6 rounded-xl border shadow-sm leading-relaxed text-sm text-gray-800 space-y-4">
+                                        <h4 className="font-black text-center text-lg text-[#0f5132] uppercase">VIET NAM AND INTERNATIONAL COOPERATION</h4>
+                                        <p className="text-center font-medium italic text-gray-600">Viet Nam has been actively <strong>(7) ____________</strong> its role in international organizations, demonstrating strong commitment to multilateral cooperation and global development.</p>
+                                        
+                                        <div className="space-y-3">
+                                            <p>• <strong>Economic Integration:</strong> Viet Nam successfully <strong>(8) ____________</strong> new trade agreements with ASEAN partners, strengthening regional economic ties and promoting sustainable growth.</p>
+                                            <p>• <strong>Diplomatic Excellence:</strong> <strong>(9) ____________</strong> Viet Nam's proactive diplomacy, the country has gained significant influence in international forums and peace-building initiatives.</p>
+                                            <p>• <strong>Strategic Positioning:</strong> Viet Nam maintains <strong>(10) ____________</strong> relationships with both developed and developing nations, balancing national interests with global responsibilities.</p>
+                                            <p>• <strong>Sustainable Development:</strong> International organizations provide <strong>(11) ____________</strong> support for Viet Nam's environmental protection and climate change adaptation programs.</p>
+                                            <p>• <strong>Growing Influence:</strong> The <strong>(12) ____________</strong> of Vietnamese representatives in key international positions continues to increase, reflecting the country's rising global status.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {currentPart === 3 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">ARRANGEMENT OF UTTERANCES</h3>
+                                    <p className="text-sm text-gray-600 italic">Mark the letter A, B, C or D to indicate the best arrangement of utterances or sentences to make a meaningful exchange or text in each of the questions from 13 to 17.</p>
+                                    
+                                    <div className="bg-white p-5 rounded-xl border shadow-sm text-sm space-y-3 text-gray-700">
+                                        <p className="font-semibold text-gray-900">Hướng dẫn làm bài:</p>
+                                        <p>Đọc kỹ các câu/lời thoại riêng lẻ ở bảng bên phải, phân tích mối quan hệ logic, tính liên kết về mặt ngữ nghĩa và từ nối để sắp xếp thành đoạn hội thoại, lá thư hoặc văn bản hoàn chỉnh.</p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {currentPart === 4 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">READING PASSAGE 3</h3>
+                                    <p className="text-sm text-gray-600 italic">Read the following passage and mark the letter A, B, C, or D to indicate the correct option that best fits each of the numbered blanks from 18 to 22.</p>
+                                    
+                                    <div className="bg-white p-6 rounded-xl border shadow-sm leading-relaxed text-[#1e293b] space-y-4 text-base">
+                                        <p>
+                                            Vietnam has strengthened its role in many international organisations over the past decades. <strong>(18) ____________</strong>. By working with global partners, the country has improved trade, security, and cultural understanding.
+                                        </p>
+                                        <p>
+                                            Participation in ASEAN has been especially important. <strong>(19) ____________</strong>. Vietnam has contributed to discussions about economic cooperation and regional stability.
+                                        </p>
+                                        <p>
+                                            <strong>(20) ____________</strong>. Vietnamese delegates have supported peacekeeping operations through the United Nations. Their involvement demonstrates responsibility to the global community.
+                                        </p>
+                                        <p>
+                                            Vietnamese experts, <strong>(21) ____________</strong>, are invited to share experiences in conferences and training programs. Their input reflects the growing reputation of the country.
+                                        </p>
+                                        <p>
+                                            <strong>(22) ____________</strong>, Vietnam’s active engagement proves its readiness to contribute to international peace and progress.
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {currentPart === 5 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">READING PASSAGE 4 (8 QUESTIONS)</h3>
+                                    <p className="text-sm text-gray-600 italic">Read the following passage and mark the letter A, B, C, or D to indicate the correct answer to each of the questions from 23 to 30.</p>
+                                    
+                                    <div className="bg-white p-6 rounded-xl border shadow-sm leading-relaxed text-base text-gray-800 space-y-4">
+                                        <p>
+                                            <span className="underline decoration-2 decoration-[#0f5132] font-semibold">Vietnam's active participation in international organizations has significantly enhanced the country's diplomatic influence and economic development opportunities since its integration into the global community.</span> Through membership in multilateral institutions, Vietnam has strengthened bilateral relationships, attracted foreign investment, and gained access to technological transfers that support domestic modernization efforts.
+                                        </p>
+                                        <p>
+                                            ASEAN membership has proven particularly beneficial for Vietnam's regional integration and economic growth. The association <strong>facilitates</strong> trade liberalization, promotes cultural exchanges, and enables collaborative approaches to address shared regional challenges including environmental protection, security cooperation, and disaster management. Vietnam's strategic location and growing economy position the country as an increasingly important player within Southeast Asian affairs.
+                                        </p>
+                                        <p>
+                                            Vietnam's engagement with global organizations such as the United Nations, World Trade Organization, and World Bank has opened numerous avenues for international cooperation and development assistance. <strong>These</strong> partnerships provide access to technical expertise, financial resources, and policy guidance that support Vietnam's sustainable development goals and poverty reduction initiatives throughout the country.
+                                        </p>
+                                        <p>
+                                            However, international cooperation also presents complex challenges requiring careful diplomatic navigation. Balancing national sovereignty with international commitments, managing trade competition while maintaining cooperative relationships, and addressing environmental concerns while pursuing economic growth demand <strong>sophisticated</strong> policy coordination and strategic planning from Vietnamese leadership to ensure optimal outcomes for national development.
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {currentPart === 6 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">READING PASSAGE 5 (10 QUESTIONS)</h3>
+                                    <p className="text-sm text-gray-600 italic">Read the following passage and mark the letter A, B, C, or D to indicate the correct answer to each of the questions from 31 to 40.</p>
+                                    
+                                    <div className="bg-white p-6 rounded-xl border shadow-sm leading-relaxed text-base text-gray-800 space-y-4">
+                                        <p>
+                                            <strong>[I]</strong> Vietnam's integration into global governance structures has <strong>accelerated</strong> dramatically since economic liberalization policies transformed the nation's international engagement strategies. <strong>[II]</strong> Membership in multilateral organizations provides Vietnam with platforms to address regional challenges while advancing national development objectives. <strong>[III]</strong> Diplomatic relationships with major powers require careful balance to maintain sovereignty while maximizing cooperative benefits. <strong>[IV]</strong>
+                                        </p>
+                                        <p>
+                                            ASEAN membership serves as Vietnam's primary vehicle for regional diplomacy, enabling participation in economic integration initiatives and security cooperation frameworks. Trade partnerships within Southeast Asian markets have diversified Vietnam's export portfolio beyond traditional agricultural products to include manufacturing and technology sectors. However, territorial disputes in the South China Sea complicate regional relationships, requiring Vietnam to navigate competing claims while maintaining peaceful resolution commitments.
+                                        </p>
+                                        <p>
+                                            United Nations engagement allows Vietnam to contribute perspectives from developing nations on global issues including climate change, sustainable development, and international security. Vietnam's peacekeeping contributions demonstrate commitment to international stability through personnel deployments in conflict-affected regions across Africa and the Middle East. <strong>These missions</strong> enhance Vietnam's diplomatic credibility while providing valuable experience for military and civilian personnel in multicultural environments.
+                                        </p>
+                                        <p>
+                                            Economic partnerships with international financial institutions facilitate infrastructure development projects essential for Vietnam's continued growth trajectory. <span className="underline decoration-2 decoration-amber-500 font-semibold">World Bank and Asian Development Bank funding supports transportation networks, renewable energy installations, and educational system improvements.</span> Nevertheless, loan conditions and development priorities sometimes conflict with national sovereignty concerns, requiring careful negotiation to balance external assistance with <strong>autonomous</strong> decision-making.
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Drag Resizer Bar */}
+                        <div className="resizer" onMouseDown={startResizing}></div>
+
+                        {/* Right Pane: Questions & Options */}
+                        <div 
+                            className="questions-pane custom-scrollbar selectable-text flex-1"
+                        >
+                            {/* PART 1 QUESTIONS */}
+                            {currentPart === 1 && (
+                                <div className="space-y-6">
+                                    {[
+                                        { q: 1, text: "Question 1.", opts: ["A. active", "B. actively", "C. action", "D. act"] },
+                                        { q: 2, text: "Question 2.", opts: ["A. into", "B. on", "C. for", "D. with"] },
+                                        { q: 3, text: "Question 3.", opts: ["A. creative big new", "B. big creative new", "C. new big creative", "D. big new creative"] },
+                                        { q: 4, text: "Question 4.", opts: ["A. participate", "B. participating", "C. participated", "D. to participate"] },
+                                        { q: 5, text: "Question 5.", opts: ["A. cooperate", "B. to cooperate", "C. cooperating", "D. cooperated"] },
+                                        { q: 6, text: "Question 6.", opts: ["A. gripping", "B. prosperous", "C. poor", "D. glad"] }
+                                    ].map(item => (
+                                        <div key={item.q} className="p-4 rounded-xl border bg-gray-50/50">
+                                            <p className="font-bold text-gray-900 mb-3">{item.text}</p>
+                                            <div className="grid grid-cols-2 gap-2">
+                                                {item.opts.map((opt, i) => {
+                                                    const letter = String.fromCharCode(65 + i);
+                                                    const isSelected = answers[item.q] === letter;
+                                                    return (
+                                                        <label 
+                                                            key={letter} 
+                                                            className={`idp-radio-label ${isSelected ? 'selected' : ''}`}
+                                                        >
+                                                            <input 
+                                                                type="radio" 
+                                                                name={`q_${item.q}`} 
+                                                                checked={isSelected}
+                                                                onChange={() => handleAnswerChange(item.q, letter)}
+                                                            />
+                                                            <span className="text-sm font-medium">{opt}</span>
+                                                        </label>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* PART 2 QUESTIONS */}
+                            {currentPart === 2 && (
+                                <div className="space-y-6">
+                                    {[
+                                        { q: 7, text: "Question 7.", opts: ["A. strengthens", "B. strengthen", "C. strengthening", "D. strengthened"] },
+                                        { q: 8, text: "Question 8.", opts: ["A. brought about", "B. brought up", "C. brought in", "D. brought down"] },
+                                        { q: 9, text: "Question 9.", opts: ["A. In spite of", "B. Thanks to", "C. Instead of", "D. Regardless of"] },
+                                        { q: 10, text: "Question 10.", opts: ["A. challenging", "B. effective", "C. complicated", "D. difficult"] },
+                                        { q: 11, text: "Question 11.", opts: ["A. many", "B. much", "C. a few", "D. little"] },
+                                        { q: 12, text: "Question 12.", opts: ["A. amount", "B. quantity", "C. number", "D. level"] }
+                                    ].map(item => (
+                                        <div key={item.q} className="p-4 rounded-xl border bg-gray-50/50">
+                                            <p className="font-bold text-gray-900 mb-3">{item.text}</p>
+                                            <div className="grid grid-cols-2 gap-2">
+                                                {item.opts.map((opt, i) => {
+                                                    const letter = String.fromCharCode(65 + i);
+                                                    const isSelected = answers[item.q] === letter;
+                                                    return (
+                                                        <label 
+                                                            key={letter} 
+                                                            className={`idp-radio-label ${isSelected ? 'selected' : ''}`}
+                                                        >
+                                                            <input 
+                                                                type="radio" 
+                                                                name={`q_${item.q}`} 
+                                                                checked={isSelected}
+                                                                onChange={() => handleAnswerChange(item.q, letter)}
+                                                            />
+                                                            <span className="text-sm font-medium">{opt}</span>
+                                                        </label>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* PART 3 QUESTIONS */}
+                            {currentPart === 3 && (
+                                <div className="space-y-6">
+                                    {/* Q13 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 13.</p>
+                                        <div className="bg-white p-3 rounded border text-sm space-y-1 text-gray-800">
+                                            <p>a. An: Our class is researching how Viet Nam works with UNICEF on education.</p>
+                                            <p>b. Hoa: Great topic! Their projects often support remote schools.</p>
+                                            <p>c. An: Exactly; I’ll look for reports that summarize outcomes.</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {["A. b – a – c", "B. a – b – c", "C. a – c – b", "D. c – a – b"].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[13] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_13" checked={answers[13] === letter} onChange={() => handleAnswerChange(13, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q14 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 14.</p>
+                                        <div className="bg-white p-3 rounded border text-sm space-y-1 text-gray-800">
+                                            <p>a. Minh: The Model UN conference will focus on access to clean water.</p>
+                                            <p>b. Trang: We should review agreements that Viet Nam has signed.</p>
+                                            <p>c. Minh: I’ll draft our position paper and include recent statistics.</p>
+                                            <p>d. Trang: I’ll prepare opening remarks and practice answers for likely questions.</p>
+                                            <p>e. Minh: Let’s coordinate outfits and arrive early to meet the chairs.</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {["A. a – b – c – d – e", "B. b – a – c – d – e", "C. a – c – b – d – e", "D. a – b – d – c – e"].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[14] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_14" checked={answers[14] === letter} onChange={() => handleAnswerChange(14, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q15 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 15.</p>
+                                        <div className="bg-white p-3 rounded border text-sm space-y-1 text-gray-800">
+                                            <p className="font-bold">Dear Director of Programs,</p>
+                                            <p>a. We propose a joint workshop on climate-resilient farming for coastal provinces.</p>
+                                            <p>b. Our university team is seeking collaboration with your NGO, which has strong field experience.</p>
+                                            <p>c. The program would combine research findings with practical training for local farmers.</p>
+                                            <p>d. If we align schedules, we can host the first session in October.</p>
+                                            <p>e. Please let us know your availability to discuss budget and trainers.</p>
+                                            <p className="font-bold pt-1">Sincerely,<br/>University Research Team Coordinator</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {["A. b – a – c – d – e", "B. a – b – c – d – e", "C. b – c – a – d – e", "D. b – a – d – c – e"].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[15] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_15" checked={answers[15] === letter} onChange={() => handleAnswerChange(15, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q16 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 16.</p>
+                                        <div className="bg-white p-3 rounded border text-sm space-y-1 text-gray-800">
+                                            <p>a. International partnerships bring expertise and funding, which accelerate public health projects.</p>
+                                            <p>b. For example, vaccine delivery improves when data systems track supplies in real time.</p>
+                                            <p>c. Moreover, training programs help local staff manage clinics more efficiently.</p>
+                                            <p>d. However, plans work best when communities, who know their needs, guide decisions.</p>
+                                            <p>e. Therefore, agreements should include feedback loops and transparent reporting.</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {["A. a – b – c – d – e", "B. a – c – b – d – e", "C. d – a – b – c – e", "D. a – b – d – c – e"].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[16] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_16" checked={answers[16] === letter} onChange={() => handleAnswerChange(16, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q17 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 17.</p>
+                                        <div className="bg-white p-3 rounded border text-sm space-y-1 text-gray-800">
+                                            <p>a. Delegate A: Viet Nam’s proposal highlights early-warning systems for storms.</p>
+                                            <p>b. Delegate B: That aligns with our region’s priorities and reduces economic losses.</p>
+                                            <p>c. Delegate A: We also suggest training exchanges so local teams can maintain equipment.</p>
+                                            <p>d. Delegate B: If funding is shared fairly, more provinces can join.</p>
+                                            <p>e. Delegate A: Agreed; we’ll include a schedule and a simple cost model.</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {["A. a – b – c – d – e", "B. b – a – c – d – e", "C. a – c – b – d – e", "D. a – b – d – e – c"].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[17] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_17" checked={answers[17] === letter} onChange={() => handleAnswerChange(17, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* PART 4 QUESTIONS */}
+                            {currentPart === 4 && (
+                                <div className="space-y-6">
+                                    {/* Q18 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 18.</p>
+                                        <div className="space-y-2">
+                                            {[
+                                                "A. Vietnam, whose contributions are increasing, is becoming a trusted partner worldwide",
+                                                "B. Vietnam, which contributions are increasing, become a trusted partner worldwide",
+                                                "C. Vietnam, who contributions are increasing, becomes a trusted partner worldwide",
+                                                "D. Vietnam, that contributions are increasing, is becoming a trusted partner worldwide"
+                                            ].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[18] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_18" checked={answers[18] === letter} onChange={() => handleAnswerChange(18, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q19 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 19.</p>
+                                        <div className="space-y-2">
+                                            {[
+                                                "A. ASEAN, where Vietnam has been a member, offers chances for dialogue and development",
+                                                "B. ASEAN, which Vietnam has been a member, offer chances for dialogue and development",
+                                                "C. ASEAN, whose Vietnam has been a member, offers chances for dialogue and development",
+                                                "D. ASEAN, that Vietnam has been a member, offers chances for dialogue and development"
+                                            ].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[19] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_19" checked={answers[19] === letter} onChange={() => handleAnswerChange(19, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q20 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 20.</p>
+                                        <div className="space-y-2">
+                                            {[
+                                                "A. In addition, support was given by Vietnam to several peacekeeping programs",
+                                                "B. In addition, support has given by Vietnam to several peacekeeping programs",
+                                                "C. In addition, support has been given by Vietnam to several peacekeeping programs",
+                                                "D. In addition, support give by Vietnam to several peacekeeping programs"
+                                            ].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[20] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_20" checked={answers[20] === letter} onChange={() => handleAnswerChange(20, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q21 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 21.</p>
+                                        <div className="space-y-2">
+                                            {[
+                                                "A. whose knowledge is respected, represent Vietnam on the global stage",
+                                                "B. which knowledge is respected, represent Vietnam on the global stage",
+                                                "C. who knowledge is respected, represent Vietnam on the global stage",
+                                                "D. whom knowledge is respected, represent Vietnam on the global stage"
+                                            ].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[21] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_21" checked={answers[21] === letter} onChange={() => handleAnswerChange(21, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q22 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 22.</p>
+                                        <div className="space-y-2">
+                                            {[
+                                                "A. These joint activities proving that Vietnam is ready to be part of the world community",
+                                                "B. These joint activities proves that Vietnam is ready to be part of the world community",
+                                                "C. These joint activities prove that Vietnam is ready to be part of the world community",
+                                                "D. These joint activities has proved that Vietnam is ready to be part of the world community"
+                                            ].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[22] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_22" checked={answers[22] === letter} onChange={() => handleAnswerChange(22, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* PART 5 QUESTIONS */}
+                            {currentPart === 5 && (
+                                <div className="space-y-6">
+                                    {[
+                                        { q: 23, text: "Question 23. Which of the following best paraphrases the underlined sentence in paragraph 1?", opts: ["A. Vietnam's involvement in international groups has improved diplomacy and economic chances.", "B. Participating in global organizations has enhanced Vietnam's influence and development options.", "C. International organization membership has strengthened Vietnam's diplomatic and economic position.", "D. Vietnam's global integration has increased diplomatic power and economic opportunities significantly."] },
+                                        { q: 24, text: "Question 24. Which of the following is NOT mentioned as a benefit of ASEAN membership?", opts: ["A. trade facilitation", "B. cultural promotion", "C. military cooperation", "D. environmental collaboration"] },
+                                        { q: 25, text: "Question 25. The word facilitates in paragraph 2 can be best replaced by ___________.", opts: ["A. promotes", "B. hinders", "C. complicates", "D. restricts"] },
+                                        { q: 26, text: "Question 26. The word sophisticated in paragraph 4 is opposite in meaning to _______.", opts: ["A. complex", "B. simple", "C. advanced", "D. refined"] },
+                                        { q: 27, text: "Question 27. The word these in paragraph 3 refers to ________.", opts: ["A. organizations", "B. partnerships", "C. avenues", "D. goals"] },
+                                        { q: 28, text: "Question 28. Which of the following is TRUE according to the passage?", opts: ["A. International cooperation only provides benefits without any challenges for Vietnam.", "B. ASEAN membership has limited impact on Vietnam's regional influence.", "C. Vietnam must balance national interests with international obligations carefully.", "D. Global organizations provide unlimited financial resources for all member countries."] },
+                                        { q: 29, text: "Question 29. In which paragraph does the writer discuss Vietnam's global organizational involvement?", opts: ["A. Paragraph 1", "B. Paragraph 2", "C. Paragraph 3", "D. Paragraph 4"] },
+                                        { q: 30, text: "Question 30. In which paragraph does the writer mention challenges of international cooperation?", opts: ["A. Paragraph 1", "B. Paragraph 2", "C. Paragraph 3", "D. Paragraph 4"] }
+                                    ].map(item => (
+                                        <div key={item.q} className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                            <p className="font-bold text-gray-900">{item.text}</p>
+                                            <div className="space-y-2">
+                                                {item.opts.map((opt, i) => {
+                                                    const letter = String.fromCharCode(65 + i);
+                                                    const isSelected = answers[item.q] === letter;
+                                                    return (
+                                                        <label key={letter} className={`idp-radio-label ${isSelected ? 'selected' : ''}`}>
+                                                            <input type="radio" name={`q_${item.q}`} checked={isSelected} onChange={() => handleAnswerChange(item.q, letter)} />
+                                                            <span className="text-sm font-medium">{opt}</span>
+                                                        </label>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* PART 6 QUESTIONS */}
+                            {currentPart === 6 && (
+                                <div className="space-y-6">
+                                    {[
+                                        { q: 31, text: "Question 31. Where in paragraph 1 does the following sentence best fit?\n\"This transformation reflects Vietnam's strategic shift from isolation to active participation in the global community.\"", opts: ["A. [I]", "B. [II]", "C. [III]", "D. [IV]"] },
+                                        { q: 32, text: "Question 32. According to paragraph 2, which of the following is NOT mentioned as a benefit of ASEAN membership for Vietnam?", opts: ["A. economic integration initiatives", "B. security cooperation frameworks", "C. cultural exchange programs", "D. participation in regional diplomacy"] },
+                                        { q: 33, text: "Question 33. Which of the following best summarises paragraph 3?", opts: ["A. Vietnam's UN engagement enables developing nation perspectives on global issues and peacekeeping contributions that enhance diplomatic credibility while providing multicultural experience for personnel.", "B. United Nations membership allows Vietnam to address climate change and sustainable development while contributing peacekeeping forces to conflict regions, improving international relationships.", "C. Vietnam participates in UN peacekeeping missions across Africa and the Middle East, demonstrating international commitment while gaining diplomatic experience for military personnel.", "D. UN engagement provides Vietnam platforms for climate change discussions and peacekeeping deployments, though these missions primarily benefit recipient countries rather than Vietnam."] },
+                                        { q: 34, text: "Question 34. The phrase these missions in paragraph 3 refers to ________.", opts: ["A. Vietnam's peacekeeping contributions", "B. perspectives from developing nations", "C. conflict-affected regions across Africa", "D. military and civilian personnel deployments"] },
+                                        { q: 35, text: "Question 35. The word accelerated in paragraph 1 is closest in meaning to ________.", opts: ["A. slowed down", "B. sped up", "C. remained stable", "D. stopped completely"] },
+                                        { q: 36, text: "Question 36. Which of the following best paraphrases the underlined sentence in paragraph 4?", opts: ["A. International financial institution funding from World Bank and Asian Development Bank assists transportation infrastructure, clean energy projects, and education sector enhancements.", "B. World Bank and Asian Development Bank financing helps develop transport systems, renewable energy facilities, and educational infrastructure improvements.", "C. Funding from World Bank and Asian Development Bank institutions supports transport infrastructure, sustainable energy projects, and educational system development.", "D. World Bank and Asian Development Bank financial assistance enables transportation development, renewable energy implementation, and education system advancement."] },
+                                        { q: 37, text: "Question 37. The word autonomous in paragraph 4 is opposite in meaning to ______.", opts: ["A. independent", "B. dependent", "C. self-governing", "D. sovereign"] },
+                                        { q: 38, text: "Question 38. Which of the following is TRUE according to the passage?", opts: ["A. Vietnam's trade partnerships within ASEAN focus exclusively on traditional agricultural products without diversification into other sectors.", "B. Territorial disputes in the South China Sea have no impact on Vietnam's regional relationships or diplomatic strategies.", "C. Vietnam contributes to UN peacekeeping missions in conflict-affected regions across Africa and the Middle East.", "D. Economic partnerships with international financial institutions never create conflicts with national sovereignty concerns."] },
+                                        { q: 39, text: "Question 39. Which of the following can be inferred from the passage?", opts: ["A. Vietnam's international engagement strategy prioritizes complete alignment with major powers over maintaining diplomatic independence.", "B. Successful international integration requires Vietnam to balance cooperative participation with preservation of national sovereignty and autonomous decision-making.", "C. ASEAN membership eliminates all territorial disputes and security challenges in Southeast Asian regional relationships.", "D. International financial assistance comes without any conditions or requirements that might affect Vietnam's policy decisions."] },
+                                        { q: 40, text: "Question 40. Which of the following best summarises the passage?", opts: ["A. Vietnam's international integration through ASEAN membership, UN engagement, and economic partnerships with financial institutions advances development objectives while requiring careful balance between cooperation and sovereignty preservation.", "B. Economic liberalization transforms Vietnam's global engagement through ASEAN trade partnerships and UN peacekeeping contributions, though South China Sea disputes complicate regional relationships.", "C. Vietnam's membership in multilateral organizations enables regional diplomacy and global issue participation while economic partnerships facilitate infrastructure development despite sovereignty concerns.", "D. International organization participation provides Vietnam platforms for addressing regional challenges and contributing to global stability through peacekeeping missions and economic cooperation frameworks."] }
+                                    ].map(item => (
+                                        <div key={item.q} className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                            <p className="font-bold text-gray-900 whitespace-pre-line">{item.text}</p>
+                                            <div className="space-y-2">
+                                                {item.opts.map((opt, i) => {
+                                                    const letter = String.fromCharCode(65 + i);
+                                                    const isSelected = answers[item.q] === letter;
+                                                    return (
+                                                        <label key={letter} className={`idp-radio-label ${isSelected ? 'selected' : ''}`}>
+                                                            <input type="radio" name={`q_${item.q}`} checked={isSelected} onChange={() => handleAnswerChange(item.q, letter)} />
+                                                            <span className="text-sm font-medium">{opt}</span>
+                                                        </label>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Notes Side Panel */}
+                        {isNotesOpen && (
+                            <div className="w-80 bg-gray-100 border-l border-gray-300 flex flex-col z-30 shadow-lg">
+                                <div className="p-3 bg-white border-b flex justify-between items-center font-bold text-gray-800">
+                                    <span>Ghi chú cá nhân</span>
+                                    <button onClick={() => setIsNotesOpen(false)} className="text-gray-500 hover:text-gray-800 text-lg">&times;</button>
+                                </div>
+                                <div className="p-3 flex-1 flex flex-col">
+                                    <p className="text-xs text-gray-500 mb-2">Các đoạn chữ Highlight sẽ được thêm tự động vào đây.</p>
+                                    <textarea 
+                                        className="w-full flex-1 p-3 border border-gray-300 rounded-lg resize-none text-sm focus:outline-none focus:ring-1 focus:ring-[#0f5132] bg-yellow-50 selectable-text"
+                                        placeholder="Nhập ghi chú của bạn ở đây..."
+                                        value={notesText}
+                                        onChange={(e) => setNotesText(e.target.value)}
+                                    ></textarea>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Footer Navigation Bar */}
+                    <footer className="test-footer">
+                        <div className="flex items-center space-x-2">
+                            {[
+                                { part: 1, label: "Dạng 1", range: [1, 6] },
+                                { part: 2, label: "Dạng 2", range: [7, 12] },
+                                { part: 3, label: "Dạng 3", range: [13, 17] },
+                                { part: 4, label: "Dạng 4", range: [18, 22] },
+                                { part: 5, label: "Dạng 5", range: [23, 30] },
+                                { part: 6, label: "Dạng 6", range: [31, 40] }
+                            ].map(p => (
+                                <button 
+                                    key={p.part}
+                                    onClick={() => setCurrentPart(p.part)}
+                                    className={`nav-part-btn ${currentPart === p.part ? 'active' : ''}`}
+                                >
+                                    {p.label} <span className="text-xs text-gray-500 ml-1">({countPartAnswered(p.range[0], p.range[1])}/{p.range[1] - p.range[0] + 1})</span>
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="flex items-center space-x-3">
+                            <div className="hidden lg:flex items-center overflow-x-auto max-w-md">
+                                {Array.from({ length: 40 }, (_, i) => i + 1).map(q => (
+                                    <span 
+                                        key={q} 
+                                        className={`q-square ${answers[q] ? 'answered' : ''}`}
+                                        onClick={() => {
+                                            if (q <= 6) setCurrentPart(1);
+                                            else if (q <= 12) setCurrentPart(2);
+                                            else if (q <= 17) setCurrentPart(3);
+                                            else if (q <= 22) setCurrentPart(4);
+                                            else if (q <= 30) setCurrentPart(5);
+                                            else setCurrentPart(6);
+                                        }}
+                                    >
+                                        {q}
+                                    </span>
+                                ))}
+                            </div>
+
+                            <button 
+                                onClick={handleSubmitTest}
+                                className="ml-2 bg-[#0f5132] hover:bg-[#0b3d26] text-white text-xs font-bold px-5 py-2.5 rounded-lg shadow transition-all flex items-center space-x-1"
+                            >
+                                <span>✓ NỘP BÀI THI</span>
+                            </button>
+                        </div>
+                    </footer>
+
+                    {/* Report Modal after submission */}
+                    {isSubmitted && (
+                        <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+                            <div className="bg-white rounded-xl p-6 max-w-3xl w-full max-h-[92vh] overflow-y-auto custom-scrollbar">
+                                <div className="border-b pb-3 mb-4">
+                                    <h2 className="text-2xl font-black text-[#0f5132]">KẾT QUẢ BÀI THI THPT MÔN TIẾNG ANH - ĐỀ SỐ 07</h2>
+                                    <p className="text-xs text-gray-500">Hệ thống tự động chấm điểm và tổng hợp giải thích chi tiết</p>
+                                </div>
+                                
+                                {isSubmitting && (
+                                    <div className="p-3 bg-blue-50 text-blue-700 rounded-lg mb-4 text-center font-medium animate-pulse text-sm">
+                                        🔄 Đang đồng bộ kết quả lên Google Sheets (tab result)...
+                                    </div>
+                                )}
+                                {submitStatus && (
+                                    <div className="p-3 bg-green-50 text-green-800 rounded-lg mb-4 text-center font-bold text-sm">
+                                        {submitStatus}
+                                    </div>
+                                )}
+
+                                {(() => {
+                                    let correct = 0;
+                                    Object.keys(CORRECT_ANSWERS).forEach(qNum => {
+                                        if (answers[qNum] === CORRECT_ANSWERS[qNum]) {
+                                            correct += 1;
+                                        }
+                                    });
+                                    const score = (correct * 0.25).toFixed(2);
+
+                                    return (
+                                        <div>
+                                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-gray-50 p-4 rounded-xl text-center mb-6 border">
+                                                <div>
+                                                    <span className="block text-xs text-gray-500 font-semibold">MÃ THÍ SINH</span>
+                                                    <span className="font-bold text-base text-gray-800">{candidate.code}</span>
+                                                </div>
+                                                <div>
+                                                    <span className="block text-xs text-gray-500 font-semibold">HỌ TÊN</span>
+                                                    <span className="font-bold text-base text-gray-800">{candidate.name}</span>
+                                                </div>
+                                                <div>
+                                                    <span className="block text-xs text-gray-500 font-semibold">SỐ CÂU ĐÚNG</span>
+                                                    <span className="font-bold text-xl text-green-600">{correct} / 40</span>
+                                                </div>
+                                                <div>
+                                                    <span className="block text-xs text-gray-500 font-semibold">ĐIỂM SỐ</span>
+                                                    <span className="font-black text-2xl text-[#0f5132]">{score} / 10.0</span>
+                                                </div>
+                                            </div>
+
+                                            <h3 className="font-bold text-base text-gray-800 mb-3 border-b pb-1">Bảng Đáp Án & Giải Thích Chi Tiết:</h3>
+                                            <div className="space-y-2 text-xs">
+                                                {Object.keys(CORRECT_ANSWERS).map((qNum) => {
+                                                    const isCorr = answers[qNum] === CORRECT_ANSWERS[qNum];
+                                                    const userVal = answers[qNum] || 'Chưa làm';
+                                                    const keyVal = CORRECT_ANSWERS[qNum];
+                                                    const expl = EXPLANATIONS[qNum];
+
+                                                    return (
+                                                        <div key={qNum} className={`p-3 border rounded-lg ${isCorr ? 'bg-green-50/60 border-green-200' : 'bg-red-50/60 border-red-200'}`}>
+                                                            <div className="flex justify-between items-center mb-1">
+                                                                <span className="font-bold text-sm text-gray-900">Câu {qNum}:</span>
+                                                                <div>
+                                                                    <span className={`px-2 py-0.5 rounded font-bold ${isCorr ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'}`}>
+                                                                        Bạn chọn: {userVal}
+                                                                    </span>
+                                                                    <span className="ml-2 font-bold text-gray-700">Đáp án đúng: {keyVal}</span>
+                                                                </div>
+                                                            </div>
+                                                            <p className="text-gray-600 italic mt-1">💡 <strong>Giải thích:</strong> {expl}</p>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    );
+                                })()}
+
+                                <button 
+                                    onClick={() => window.location.reload()}
+                                    className="mt-6 w-full bg-gray-800 text-white py-3 rounded-lg font-bold hover:bg-black transition-colors"
+                                >
+                                    LÀM LẠI BÀI THI
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
