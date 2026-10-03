@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KỲ THI TỐT NGHIỆP THPT - MÔN TIẾNG ANH - ĐỀ SỐ 02</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f4f5f7;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .selectable-text {
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+        }
+
+        .aplus-brand {
+            color: #0f5132;
+            font-weight: 900;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .header-top {
+            height: 56px;
+            background: #ffffff;
+            border-bottom: 1px solid #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 20;
+        }
+
+        .part-header-banner {
+            background-color: #f3f4f6;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0.6rem 1.5rem;
+            font-size: 0.9rem;
+            color: #1f2937;
+            font-weight: 500;
+        }
+
+        .main-workspace {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .passage-pane {
+            overflow-y: auto;
+            padding: 2rem;
+            background: #f9fafb;
+            border-right: 1px solid #e5e7eb;
+        }
+
+        .questions-pane {
+            overflow-y: auto;
+            padding: 2rem;
+            background: #ffffff;
+        }
+
+        .resizer {
+            width: 8px;
+            background: #e5e7eb;
+            cursor: col-resize;
+            transition: background 0.2s;
+            position: relative;
+            z-index: 10;
+        }
+        .resizer:hover, .resizer.resizing {
+            background: #0f5132;
+        }
+
+        .ielts-highlight {
+            background-color: #fef08a;
+            color: #1e293b;
+            padding: 0 2px;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .idp-popover {
+            position: absolute;
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            z-index: 100;
+            padding: 4px;
+        }
+
+        .idp-popover-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            color: #4b5563;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.15s;
+        }
+
+        .idp-popover-btn:hover {
+            background-color: #f3f4f6;
+            color: #111827;
+        }
+
+        .test-footer {
+            height: 60px;
+            background: #ffffff;
+            border-top: 1px solid #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 20;
+        }
+
+        .nav-part-btn {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #374151;
+            border-radius: 4px;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .nav-part-btn.active {
+            color: #0f5132;
+            background-color: #e8f5e9;
+        }
+
+        .q-square {
+            width: 26px;
+            height: 26px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid #9ca3af;
+            border-radius: 3px;
+            background: #fff;
+            color: #374151;
+            cursor: pointer;
+            margin: 0 2px;
+        }
+
+        .q-square.answered {
+            background-color: #0f5132;
+            color: #ffffff;
+            font-weight: 700;
+            border-color: #0f5132;
+        }
+
+        .q-square.active {
+            border: 2px solid #f97316;
+            color: #f97316;
+            font-weight: 700;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .idp-radio-label {
+            display: flex;
+            align-items: flex-start;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 6px;
+            transition: all 0.15s;
+        }
+        .idp-radio-label:hover {
+            background-color: #f3f4f6;
+            border-color: #d1d5db;
+        }
+        .idp-radio-label.selected {
+            background-color: #f0fdf4;
+            border-color: #16a34a;
+        }
+        .idp-radio-label input[type="radio"] {
+            margin-top: 3px;
+            margin-right: 12px;
+            accent-color: #0f5132;
+            width: 16px;
+            height: 16px;
+        }
+    </style>
+    <!-- React CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useCallback, useRef } = React;
+
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwUv3CY-PXc2OjS69BQ1K0Xz6s4YQisQYruj_J29K0kqIL5feLRInX3rb5c2sXn0uj_/exec";
+
+        const CORRECT_ANSWERS = {
+            1: "A", 2: "A", 3: "B", 4: "A", 5: "B", 6: "A",
+            7: "B", 8: "B", 9: "A", 10: "C", 11: "A", 12: "B",
+            13: "A", 14: "A", 15: "D", 16: "B", 17: "C",
+            18: "C", 19: "B", 20: "A", 21: "A", 22: "B",
+            23: "D", 24: "C", 25: "A", 26: "B", 27: "C", 28: "D", 29: "B", 30: "C",
+            31: "B", 32: "C", 33: "A", 34: "A", 35: "B", 36: "A", 37: "B", 38: "C", 39: "B", 40: "A"
+        };
+
+        const EXPLANATIONS = {
+            1: "Cần danh từ 'challenge' đứng sau tính từ 'global' để làm tân ngữ.",
+            2: "Cụm từ 'to find solutions to reduce' dùng động từ nguyên mẫu chỉ mục đích.",
+            3: "Cụm động từ cố định: 'work hard for' (nỗ lực chăm chỉ vì mục đích gì).",
+            4: "Trật tự tính từ: 'new' (Age) đứng trước 'clean energy sources'. Cụm chuẩn: 'new clean energy sources'.",
+            5: "Sau giới từ 'by' dùng dạng V-ing ('by making a habit').",
+            6: "Sau tính từ sở hữu 'our' dùng danh từ số ít 'planet'.",
+            7: "Động từ 'prevent' (ngăn chặn/ngăn ngừa tác hại) phù hợp ngữ cảnh tích cực.",
+            8: "Phrasal verb 'take up' nghĩa là bắt đầu thực hiện/áp dụng thói quen mới.",
+            9: "Cụm liên kết 'In addition to' (ngoài ra/bên cạnh) thể hiện mối quan hệ bổ sung.",
+            10: "Tính từ 'responsible' (có trách nhiệm) ghép tạo cụm 'responsible choices'.",
+            11: "Lượng từ 'few' dùng cho danh từ đếm được số nhiều 'changes'.",
+            12: "Cụm 'the number of' đi với danh từ đếm được số nhiều chỉ người 'people'.",
+            13: "Thứ tự hội thoại ngắn hợp lý: Linh mở đầu (a) -> Quang hưởng ứng (b) -> Linh tổng kết (c).",
+            14: "Mạch hội thoại rủ rê: Mai rủ (a) -> Tuấn đồng ý (b) -> Mai dặn dò (c) -> Tuấn lên bài đăng (d) -> Mai khen (e).",
+            15: "Cấu trúc thư đề nghị: Mở đầu nêu lý do (e) -> Thực trạng (b) -> Đề xuất (a) -> Tác động (c) -> Hy vọng (d).",
+            16: "Mạch văn logic: Nêu thực trạng phá rừng (a) -> Hậu quả trực tiếp (d) -> Hệ quả mở rộng (b) -> Giải pháp cộng đồng (c) -> Chính sách (e).",
+            17: "Hội thoại phỏng vấn: Đưa thông tin (a) -> Hỏi nguyên nhân (b) -> Trả lời chi tiết (c) -> Hỏi giải pháp (d) -> Khẳng định (e).",
+            18: "Cấu trúc đảo ngữ với trạng từ phủ định 'Rarely': 'Rarely has humanity encountered...'.",
+            19: "Mệnh đề quan hệ không hạn định dùng 'which are most affected...'; động từ 'demand' hòa hợp với 'Countries'.",
+            20: "Cấu trúc đảo ngữ 'Not only are governments investing..., but citizens are also...'.",
+            21: "Mệnh đề sở hữu 'cities, whose populations continue to grow...' bổ nghĩa cho 'cities'.",
+            22: "Chủ ngữ số nhiều 'These environmental crises...' đi với động từ số nhiều 'demonstrate'.",
+            23: "Câu gạch chân 'Sự suy thoái môi trường này đòi hỏi sự quan tâm ngay lập tức từ nhà hoạch định chính sách và người dân' tương đương D.",
+            24: "Nguồn ô nhiễm nông nghiệp ('agricultural pesticides') KHÔNG được nhắc tới trong bài.",
+            25: "'Hazardous' nghĩa là nguy hiểm, đồng nghĩa với 'dangerous'.",
+            26: "'Contamination' (ô nhiễm/làm bẩn) trái nghĩa với 'purification' (sự làm sạch/thanh lọc).",
+            27: "Đại từ 'these' ở đoạn 4 quy chiếu cho 'these measures' (các giải pháp/biện pháp đã nêu).",
+            28: "Đoạn 4 nhấn mạnh các giải pháp môi trường đòi hỏi sự phối hợp giữa nhiều tổ chức (Cơ quan nhà nước, tư nhân, cộng đồng).",
+            29: "Các tác động về sức khỏe (bệnh đường hô hấp, tim mạch, tử vong sớm) nằm ở Đoạn 2.",
+            30: "Vấn đề ô nhiễm nguồn nước được trình bày chi tiết ở Đoạn 3.",
+            31: "Câu chèn 'Những thay đổi này đe dọa đến sự cân bằng...' đặt tại vị trí [II] làm rõ hệ quả trực tiếp của hoạt động con người ở câu [I].",
+            32: "'Axit hóa đại dương' được đề cập ở đoạn 3 (môi trường biển), KHÔNG phải biểu hiện biến đổi khí hậu ở đoạn 2.",
+            33: "Đoạn 3 nói về suy giảm đa dạng sinh học do phá rừng, ô nhiễm và sự suy thoái môi trường biển do axit hóa/nhựa.",
+            34: "'This reality' quy chiếu trực tiếp vế trước về lựa chọn cá nhân và sự can thiệp chính sách hệ thống.",
+            35: "'Unprecedented' (chưa từng có, vô tiền khoáng hậu) đồng nghĩa với 'unparalleled'.",
+            36: "Diễn giải chính xác ý câu gạch chân trong đoạn 4 về hành vi cá nhân và chính sách doanh nghiệp/chính phủ.",
+            37: "Từ 'formidable' (nghiêm trọng/nan giải) trái nghĩa với 'manageable' (có thể kiểm soát/quản lý được).",
+            38: "Theo đoạn 3, môi trường biển suy thoái nghiêm trọng do axit hóa và ô nhiễm nhựa đe dọa chuỗi thức ăn.",
+            39: "Suy luận từ bài đọc: Việc giải quyết biến đổi khí hậu đòi hỏi chuyển biến cả về hành vi cá nhân lẫn chính sách thể chế.",
+            40: "Tóm tắt bao quát toàn bài: Hoạt động con người gây biến đổi khí hậu & mất đa dạng sinh học, đòi hỏi giải pháp phối hợp cá nhân lẫn hệ thống."
+        };
+
+        const SetupScreen = ({ onStartTest }) => {
+            const [code, setCode] = useState('');
+            const [name, setName] = useState('');
+            const [error, setError] = useState('');
+
+            const handleSubmit = () => {
+                if (!code.trim() || !name.trim()) {
+                    setError('Vui lòng nhập đầy đủ Mã thí sinh / Lớp và Họ tên.');
+                    return;
+                }
+                onStartTest(code, name);
+            };
+
+            return (
+                <div className="fixed inset-0 bg-gray-100 flex items-center justify-center p-4 z-50">
+                    <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md border-t-4 border-[#0f5132]">
+                        <div className="text-center mb-6">
+                            <h2 className="text-xl font-black text-[#0f5132] tracking-wide">TRUNG TÂM NGOẠI NGỮ APLUS</h2>
+                            <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">Kỳ Thi Tốt Nghiệp THPT Quốc Gia</p>
+                            <h1 className="text-2xl font-black text-gray-800 mt-2">MÔN TIẾNG ANH - ĐỀ SỐ 02</h1>
+                            <p className="text-xs text-gray-600 mt-1">Thời gian làm bài: 50 phút | Mã đề: 1126</p>
+                        </div>
+                        
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-700 mb-1">Mã số Thí sinh / Lớp</label>
+                                <input 
+                                    type="text" 
+                                    value={code}
+                                    onChange={(e) => setCode(e.target.value)}
+                                    className="block w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-[#0f5132] focus:border-[#0f5132] text-sm" 
+                                    placeholder="Ví dụ: 12A1 / TS2026"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-700 mb-1">Họ và Tên Thí sinh</label>
+                                <input 
+                                    type="text" 
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className="block w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-[#0f5132] focus:border-[#0f5132] text-sm" 
+                                    placeholder="Ví dụ: Phan Ngọc Huy"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="mt-4 bg-amber-50 p-3 rounded-lg border border-amber-200 text-xs text-amber-800">
+                            <strong>⚠️ Lưu ý kỳ thi:</strong> Bật chế độ Toàn màn hình (Fullscreen). Hệ thống sẽ tự động ghi nhận nếu thí sinh chuyển tab hoặc thoát màn hình làm bài.
+                        </div>
+                        
+                        {error && <p className="text-red-500 text-xs mt-3 text-center font-bold">{error}</p>}
+                        
+                        <button 
+                            onClick={handleSubmit}
+                            className="mt-6 w-full bg-[#0f5132] text-white py-3.5 rounded-lg font-bold hover:bg-[#0b3d26] transition-colors shadow-lg flex items-center justify-center space-x-2"
+                        >
+                            <span>BẮT ĐẦU LÀM BÀI (FULLSCREEN)</span>
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [appState, setAppState] = useState('setup');
+            const [candidate, setCandidate] = useState({ code: '', name: '' });
+            const [answers, setAnswers] = useState({});
+            const [currentPart, setCurrentPart] = useState(1);
+            const [timeLeft, setTimeLeft] = useState(50 * 60);
+            const [warningCount, setWarningCount] = useState(0);
+            const [showWarningModal, setShowWarningModal] = useState(false);
+            const [isSubmitted, setIsSubmitted] = useState(false);
+            const [isSubmitting, setIsSubmitting] = useState(false);
+            const [submitStatus, setSubmitStatus] = useState('');
+            const [isNotesOpen, setIsNotesOpen] = useState(false);
+            const [notesText, setNotesText] = useState('');
+
+            // Resizable split pane width percentage
+            const [leftWidth, setLeftWidth] = useState(48);
+            const isResizing = useRef(false);
+
+            const [popover, setPopover] = useState({ visible: false, x: 0, y: 0, mode: 'create', node: null, text: '' });
+
+            const reEnterFullscreen = () => {
+                const elem = document.documentElement;
+                if (!document.fullscreenElement && elem.requestFullscreen) {
+                    elem.requestFullscreen().catch(() => {});
+                }
+            };
+
+            const handleCloseWarningModal = () => {
+                setShowWarningModal(false);
+                reEnterFullscreen();
+            };
+
+            // Anti copy & context menu
+            useEffect(() => {
+                const preventDefault = (e) => e.preventDefault();
+                document.addEventListener('contextmenu', preventDefault);
+                document.addEventListener('copy', preventDefault);
+                return () => {
+                    document.removeEventListener('contextmenu', preventDefault);
+                    document.removeEventListener('copy', preventDefault);
+                };
+            }, []);
+
+            // Resizer handlers
+            const startResizing = useCallback((e) => {
+                isResizing.current = true;
+                document.addEventListener('mousemove', handleMouseMove);
+                document.addEventListener('mouseup', stopResizing);
+            }, []);
+
+            const handleMouseMove = useCallback((e) => {
+                if (!isResizing.current) return;
+                const newWidth = (e.clientX / window.innerWidth) * 100;
+                if (newWidth > 20 && newWidth < 80) {
+                    setLeftWidth(newWidth);
+                }
+            }, []);
+
+            const stopResizing = useCallback(() => {
+                isResizing.current = false;
+                document.removeEventListener('mousemove', handleMouseMove);
+                document.removeEventListener('mouseup', stopResizing);
+            }, []);
+
+            // Highlight & Notes popover
+            const handleMouseUp = (e) => {
+                const target = e.target;
+                if (target.classList.contains('ielts-highlight')) {
+                    const rect = target.getBoundingClientRect();
+                    setPopover({
+                        visible: true,
+                        x: rect.left + window.scrollX + (rect.width / 2) - 40,
+                        y: rect.top + window.scrollY - 55,
+                        mode: 'delete',
+                        node: target,
+                        text: ''
+                    });
+                    return;
+                }
+
+                const selection = window.getSelection();
+                if (selection && selection.toString().trim().length > 0) {
+                    const range = selection.getRangeAt(0);
+                    const rect = range.getBoundingClientRect();
+                    setPopover({
+                        visible: true,
+                        x: rect.left + window.scrollX + (rect.width / 2) - 60,
+                        y: rect.top + window.scrollY - 55,
+                        mode: 'create',
+                        node: null,
+                        text: selection.toString().trim()
+                    });
+                } else if (!e.target.closest('.idp-popover')) {
+                    setPopover({ visible: false, x: 0, y: 0, mode: 'create', node: null, text: '' });
+                }
+            };
+
+            const applyHighlight = () => {
+                const selection = window.getSelection();
+                if (!selection.rangeCount) return;
+                const range = selection.getRangeAt(0);
+                const span = document.createElement('span');
+                span.className = 'ielts-highlight';
+                span.appendChild(range.extractContents());
+                range.insertNode(span);
+                selection.removeAllRanges();
+                setPopover({ visible: false, x: 0, y: 0, mode: 'create', node: null, text: '' });
+            };
+
+            const removeHighlight = () => {
+                if (popover.node) {
+                    const parent = popover.node.parentNode;
+                    while (popover.node.firstChild) {
+                        parent.insertBefore(popover.node.firstChild, popover.node);
+                    }
+                    parent.removeChild(popover.node);
+                }
+                setPopover({ visible: false, x: 0, y: 0, mode: 'create', node: null, text: '' });
+            };
+
+            const handleCreateNote = () => {
+                setIsNotesOpen(true);
+                if (popover.text) {
+                    setNotesText(prev => prev ? `${prev}\n- ${popover.text}` : `- ${popover.text}`);
+                }
+                setPopover({ visible: false, x: 0, y: 0, mode: 'create', node: null, text: '' });
+            };
+
+            // Anti-cheat detection
+            useEffect(() => {
+                if (appState !== 'testing' || isSubmitted) return;
+
+                const handleVisibilityChange = () => {
+                    if (document.hidden) {
+                        setWarningCount(prev => prev + 1);
+                        setShowWarningModal(true);
+                    }
+                };
+
+                const handleFullscreenChange = () => {
+                    if (!document.fullscreenElement && !isSubmitted) {
+                        setWarningCount(prev => prev + 1);
+                        setShowWarningModal(true);
+                    }
+                };
+
+                document.addEventListener('visibilitychange', handleVisibilityChange);
+                document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+                return () => {
+                    document.removeEventListener('visibilitychange', handleVisibilityChange);
+                    document.removeEventListener('fullscreenchange', handleFullscreenChange);
+                };
+            }, [appState, isSubmitted]);
+
+            // Countdown timer
+            useEffect(() => {
+                if (appState !== 'testing' || isSubmitted) return;
+                const timer = setInterval(() => {
+                    setTimeLeft(prev => {
+                        if (prev <= 1) {
+                            clearInterval(timer);
+                            handleSubmitTest();
+                            return 0;
+                        }
+                        return prev - 1;
+                    });
+                }, 1000);
+                return () => clearInterval(timer);
+            }, [appState, isSubmitted]);
+
+            const handleStartTest = (code, name) => {
+                setCandidate({ code, name });
+                setAppState('testing');
+                reEnterFullscreen();
+            };
+
+            const handleAnswerChange = (qNum, val) => {
+                setAnswers(prev => ({ ...prev, [qNum]: val }));
+            };
+
+            const countPartAnswered = (start, end) => {
+                let cnt = 0;
+                for (let i = start; i <= end; i++) {
+                    if (answers[i]) cnt++;
+                }
+                return cnt;
+            };
+
+            const handleSubmitTest = async () => {
+                setIsSubmitted(true);
+                setIsSubmitting(true);
+
+                let correctCount = 0;
+                Object.keys(CORRECT_ANSWERS).forEach(qNum => {
+                    if (answers[qNum] === CORRECT_ANSWERS[qNum]) {
+                        correctCount += 1;
+                    }
+                });
+
+                const finalScore = (correctCount * 0.25).toFixed(2);
+
+                const payload = {
+                    sheetName: "result",
+                    testType: "KỲ THI TNTHPT - TIẾNG ANH - ĐỀ SỐ 02",
+                    candidateCode: candidate.code,
+                    candidateName: candidate.name,
+                    correctCount: `${correctCount}/40`,
+                    score: finalScore,
+                    warningCount: warningCount
+                };
+
+                try {
+                    await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    setSubmitStatus('✅ Đã nộp bài & lưu kết quả thành công vào hệ thống!');
+                } catch (err) {
+                    setSubmitStatus('❌ Có lỗi khi gửi kết quả. Vui lòng chụp lại màn hình!');
+                } finally {
+                    setIsSubmitting(false);
+                }
+            };
+
+            const formatMinutesLeft = (seconds) => {
+                const m = Math.floor(seconds / 60);
+                const s = seconds % 60;
+                return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+            };
+
+            if (appState === 'setup') {
+                return <SetupScreen onStartTest={handleStartTest} />;
+            }
+
+            return (
+                <div className="h-screen flex flex-col" onMouseUp={handleMouseUp}>
+                    {/* Popover Menu for Text Highlight & Note */}
+                    {popover.visible && (
+                        <div className="idp-popover" style={{ top: `${popover.y}px`, left: `${popover.x}px` }}>
+                            {popover.mode === 'create' ? (
+                                <>
+                                    <button onClick={handleCreateNote} className="idp-popover-btn border-r">
+                                        <svg className="w-4 h-4 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                                        Ghi chú
+                                    </button>
+                                    <button onClick={applyHighlight} className="idp-popover-btn">
+                                        <svg className="w-4 h-4 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                                        Highlight
+                                    </button>
+                                </>
+                            ) : (
+                                <button onClick={removeHighlight} className="idp-popover-btn text-red-600">
+                                    <svg className="w-4 h-4 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    Xóa Highlight
+                                </button>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Anti-cheat Warning Modal */}
+                    {showWarningModal && (
+                        <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-[999] backdrop-blur-sm">
+                            <div className="bg-white rounded-xl p-6 max-w-md w-full shadow-2xl border-t-8 border-red-600 text-center">
+                                <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                </div>
+                                <h3 className="text-xl font-bold text-gray-900 mb-2">CẢNH BÁO VI PHẠM KỲ THI</h3>
+                                <p className="text-sm text-gray-600 mb-4">
+                                    Hệ thống phát hiện bạn vừa <strong>chuyển tab</strong> hoặc <strong>thoát Toàn màn hình (Fullscreen)</strong>.
+                                </p>
+                                <div className="bg-red-50 text-red-700 p-3 rounded-lg font-bold text-xs mb-6 border border-red-200">
+                                    Số lần vi phạm ghi nhận: {warningCount}
+                                </div>
+                                <button 
+                                    onClick={handleCloseWarningModal}
+                                    className="w-full bg-[#0f5132] hover:bg-[#0b3d26] text-white py-3 rounded-lg font-bold transition-all shadow-md flex items-center justify-center space-x-2"
+                                >
+                                    <span>Quay lại bài thi (Mở Fullscreen)</span>
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Top Header */}
+                    <header className="header-top">
+                        <div className="flex items-center space-x-6">
+                            <div className="aplus-brand">APLUS</div>
+                            <div className="text-xs text-gray-700 font-medium">
+                                Thí sinh: <span className="font-bold text-gray-900">{candidate.name} ({candidate.code})</span>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center space-x-2 bg-amber-50 border border-amber-200 px-4 py-1.5 rounded-full">
+                            <span className="text-xs font-semibold text-amber-800">Thời gian còn lại:</span>
+                            <span className="font-black text-base text-[#f97316]">{formatMinutesLeft(timeLeft)}</span>
+                        </div>
+
+                        <div className="flex items-center space-x-4 text-gray-600">
+                            {warningCount > 0 && (
+                                <span className="text-xs bg-red-100 text-red-700 px-2.5 py-1 rounded-full font-bold border border-red-300">
+                                    Vi phạm: {warningCount}
+                                </span>
+                            )}
+                            <svg 
+                                className={`w-5 h-5 cursor-pointer ${isNotesOpen ? 'text-[#0f5132]' : 'hover:text-gray-900'}`} 
+                                fill="none" 
+                                stroke="currentColor" 
+                                viewBox="0 0 24 24"
+                                onClick={() => setIsNotesOpen(!isNotesOpen)}
+                                title="Ghi chú"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </div>
+                    </header>
+
+                    {/* Part Title Banner */}
+                    <div className="part-header-banner flex justify-between items-center">
+                        <div>
+                            <span className="font-bold text-[#0f5132]">
+                                {currentPart === 1 && "Dạng 1: Đọc Điền Thông Báo (Câu 1 - 6)"}
+                                {currentPart === 2 && "Dạng 2: Đọc Điền Tờ Rơi (Câu 7 - 12)"}
+                                {currentPart === 3 && "Dạng 3: Sắp Xếp Đoạn Hội Thoại / Thư / Đoạn Văn (Câu 13 - 17)"}
+                                {currentPart === 4 && "Dạng 4: Đọc Điền Khuyết Thông Tin (Câu 18 - 22)"}
+                                {currentPart === 5 && "Dạng 5: Đọc Hiểu 8 Câu (Câu 23 - 30)"}
+                                {currentPart === 6 && "Dạng 6: Đọc Hiểu 10 Câu (Câu 31 - 40)"}
+                            </span>
+                        </div>
+                        <div className="text-xs text-gray-500 font-medium">
+                            Kéo thanh giữa để thay đổi độ rộng 2 bảng
+                        </div>
+                    </div>
+
+                    {/* Main Resizable Workspace */}
+                    <div className="main-workspace">
+                        {/* Left Pane: Passage Context */}
+                        <div 
+                            className="passage-pane custom-scrollbar selectable-text" 
+                            style={{ width: `${leftWidth}%` }}
+                        >
+                            {currentPart === 1 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">READING PASSAGE 1</h3>
+                                    <p className="text-sm text-gray-600 italic">Read the following passage and mark the letter A, B, C, or D on your answer sheet to indicate the option that best fits each of the numbered blanks from 1 to 6.</p>
+                                    
+                                    <div className="bg-white p-6 rounded-xl border shadow-sm leading-relaxed text-base text-gray-800 space-y-3">
+                                        <p>
+                                            Protecting our planet is a global <strong>(1) ____________</strong>. Every day, human activities have a profound impact on the environment. Pollution from factories and cars is a serious issue, as are the large amounts of waste we produce. We need to find more sustainable solutions <strong>(2) ____________</strong> our dependence on fossil fuels. Many organizations are now working hard <strong>(3) ____________</strong> promoting renewable energy sources. One of the most common solutions is the use of wind and solar power. It's a great example of a new, clean, and green energy source. These <strong>(4) ____________</strong> are becoming more accessible. Individuals can also make a difference by <strong>(5) ____________</strong> a habit of recycling and reducing their carbon footprint. The challenge is complex, but by working together, we can save our <strong>(6) ____________</strong> from environmental damage.
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {currentPart === 2 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">READING PASSAGE 2 (BROCHURE)</h3>
+                                    <p className="text-sm text-gray-600 italic">Read the following passage and mark the letter A, B, C, or D on your answer sheet to indicate the option that best fits each of the numbered blanks from 7 to 12.</p>
+                                    
+                                    <div className="bg-white p-6 rounded-xl border shadow-sm leading-relaxed text-sm text-gray-800 space-y-4">
+                                        <h4 className="font-black text-center text-lg text-[#0f5132] uppercase">PROTECT OUR PLANET TOGETHER</h4>
+                                        
+                                        <div className="space-y-3">
+                                            <p>• <strong>Why Environmental Protection Matters:</strong> Climate change and pollution are serious threats to our planet. Every individual action can help to <strong>(7) ____________</strong> the harmful effects of global warming and create a more sustainable future.</p>
+                                            <p>• <strong>Reduce Your Carbon Footprint:</strong> Simple lifestyle changes can make a big difference. You can <strong>(8) ____________</strong> eco-friendly habits like using public transportation, recycling, and choosing renewable energy sources.</p>
+                                            <p>• <strong>Community Action:</strong> <strong>(9) ____________</strong> individual efforts, community-wide environmental programs have proven to be more effective in addressing large-scale pollution problems.</p>
+                                            <p>• <strong>Choose Sustainable Options:</strong> Making <strong>(10) ____________</strong> choices about the products we buy and the energy we consume helps protect natural resources and wildlife habitats for future generations.</p>
+                                            <p>• <strong>Start Small, Think Big:</strong> Even implementing <strong>(11) ____________</strong> changes in your daily routine, such as turning off lights or using reusable bags, can contribute to environmental conservation.</p>
+                                            <p>• <strong>Growing Awareness:</strong> Environmental consciousness is spreading globally, with the <strong>(12) ____________</strong> of people participating in green initiatives increasing significantly each year.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {currentPart === 3 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">ARRANGEMENT OF UTTERANCES</h3>
+                                    <p className="text-sm text-gray-600 italic">Mark the letter A, B, C or D to indicate the best arrangement of utterances or sentences to make a meaningful exchange or text in each of the questions from 13 to 17.</p>
+                                    
+                                    <div className="bg-white p-5 rounded-xl border shadow-sm text-sm space-y-3 text-gray-700">
+                                        <p className="font-semibold text-gray-900">Hướng dẫn làm bài:</p>
+                                        <p>Đọc kỹ các câu/lời thoại riêng lẻ ở bảng bên phải, phân tích mối quan hệ logic, tính liên kết về mặt ngữ nghĩa và từ nối để sắp xếp thành đoạn hội thoại, lá thư hoặc văn bản hoàn chỉnh.</p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {currentPart === 4 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">READING PASSAGE 3</h3>
+                                    <p className="text-sm text-gray-600 italic">Read the following passage and mark the letter A, B, C, or D to indicate the correct option that best fits each of the numbered blanks from 18 to 22.</p>
+                                    
+                                    <div className="bg-white p-6 rounded-xl border shadow-sm leading-relaxed text-[#1e293b] space-y-4 text-base">
+                                        <p>
+                                            Human activity has left undeniable marks on the environment, from rising global temperatures to shrinking forests. <strong>(18) ____________</strong>. Air and water pollution continue to threaten human health and biodiversity.
+                                        </p>
+                                        <p>
+                                            Climate change is particularly concerning because its effects transcend national borders. <strong>(19) ____________</strong>. International agreements have been established, but their enforcement often proves difficult.
+                                        </p>
+                                        <p>
+                                            <strong>(20) ____________</strong>. Renewable energy sources are being promoted as alternatives to fossil fuels. Solar and wind power show promise, yet investment and infrastructure remain uneven across countries.
+                                        </p>
+                                        <p>
+                                            In urban areas, <strong>(21) ____________</strong>. While some cities successfully implement eco-friendly policies, others struggle with congestion, waste, and resource management.
+                                        </p>
+                                        <p>
+                                            Ultimately, solving environmental problems requires cooperation at all levels. <strong>(22) ____________</strong>. Without immediate action, the planet risks facing irreversible consequences.
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {currentPart === 5 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">READING PASSAGE 4 (8 QUESTIONS)</h3>
+                                    <p className="text-sm text-gray-600 italic">Read the following passage and mark the letter A, B, C, or D to indicate the correct answer to each of the questions from 23 to 30.</p>
+                                    
+                                    <div className="bg-white p-6 rounded-xl border shadow-sm leading-relaxed text-base text-gray-800 space-y-4">
+                                        <p>
+                                            Urban environments worldwide face escalating pollution crises that threaten both human health and ecological sustainability. Industrial activities, vehicular emissions, and inadequate waste management systems contribute to deteriorating air and water quality in metropolitan areas. <span className="underline decoration-2 decoration-[#0f5132] font-semibold">This environmental degradation demands immediate attention from policymakers and citizens alike.</span>
+                                        </p>
+                                        <p>
+                                            Air pollution represents the most visible and immediate threat to urban populations. Particulate matter, nitrogen oxides, and sulfur compounds released from factories and transportation networks create <strong>hazardous</strong> atmospheric conditions. Residents of heavily polluted cities experience higher rates of respiratory diseases, cardiovascular problems, and premature mortality compared to those living in cleaner environments.
+                                        </p>
+                                        <p>
+                                            Water <strong>contamination</strong> poses equally serious risks to urban communities. Industrial discharge, sewage overflow, and chemical runoff pollute rivers, lakes, and groundwater sources that supply metropolitan areas. Many urban residents lack access to clean drinking water, forcing them to rely on expensive purification systems or bottled water alternatives that generate additional plastic waste.
+                                        </p>
+                                        <p>
+                                            Innovative solutions emerge as cities recognize the urgency of environmental protection. Green infrastructure projects, renewable energy installations, and stricter emission regulations show promising results in reducing urban pollution levels. However, implementing <strong>these</strong> measures requires substantial financial investment and coordinated efforts between government agencies, private sector partners, and community organizations to achieve meaningful environmental improvements.
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {currentPart === 6 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">READING PASSAGE 5 (10 QUESTIONS)</h3>
+                                    <p className="text-sm text-gray-600 italic">Read the following passage and mark the letter A, B, C, or D to indicate the correct answer to each of the questions from 31 to 40.</p>
+                                    
+                                    <div className="bg-white p-6 rounded-xl border shadow-sm leading-relaxed text-base text-gray-800 space-y-4">
+                                        <p>
+                                            <strong>[I]</strong> Human activities continue to reshape Earth's ecological systems at an <strong>unprecedented</strong> pace, triggering cascading environmental consequences across multiple ecosystems. <strong>[II]</strong> Scientific communities worldwide warn that current consumption patterns are fundamentally incompatible with planetary sustainability. <strong>[III]</strong> The interconnected nature of environmental challenges demands comprehensive, coordinated global responses. <strong>[IV]</strong>
+                                        </p>
+                                        <p>
+                                            Climate change represents humanity's most <strong>formidable</strong> environmental challenge, manifesting through rising sea levels, extreme weather events, and shifting agricultural zones. Greenhouse gas emissions from industrial processes, transportation, and energy production continue accelerating despite international commitments to reduce carbon footprints. Developing nations face particular dilemmas in balancing economic growth with environmental protection, often lacking resources to implement clean technologies.
+                                        </p>
+                                        <p>
+                                            Biodiversity loss compounds these environmental crises, with species extinction rates now exceeding natural background levels by several orders of magnitude. Deforestation, habitat fragmentation, and pollution destroy ecosystems that have evolved over millennia. Marine environments suffer particularly severe degradation, with ocean acidification and plastic contamination threatening entire food webs from microscopic plankton to apex predators.
+                                        </p>
+                                        <p>
+                                            <span className="underline decoration-2 decoration-amber-500 font-semibold">Individual consumer choices significantly influence environmental outcomes, though systemic changes require coordinated policy interventions and corporate responsibility.</span> <strong>This reality</strong> forces society to confront uncomfortable truths about lifestyle modifications necessary for environmental preservation. Sustainable living practices, renewable energy adoption, and circular economy principles offer pathways toward ecological balance, but implementation requires substantial behavioral and institutional transformations.
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Drag Resizer Bar */}
+                        <div className="resizer" onMouseDown={startResizing}></div>
+
+                        {/* Right Pane: Questions & Options */}
+                        <div 
+                            className="questions-pane custom-scrollbar selectable-text flex-1"
+                        >
+                            {/* PART 1 QUESTIONS */}
+                            {currentPart === 1 && (
+                                <div className="space-y-6">
+                                    {[
+                                        { q: 1, text: "Question 1.", opts: ["A. challenge", "B. challenging", "C. challenges", "D. challenged"] },
+                                        { q: 2, text: "Question 2.", opts: ["A. to reduce", "B. reducing", "C. reduce", "D. reduced"] },
+                                        { q: 3, text: "Question 3.", opts: ["A. at", "B. for", "C. with", "D. on"] },
+                                        { q: 4, text: "Question 4.", opts: ["A. new clean energy sources", "B. energy clean sources new", "C. clean energy sources new", "D. clean new energy sources"] },
+                                        { q: 5, text: "Question 5.", opts: ["A. make", "B. making", "C. made", "D. makes"] },
+                                        { q: 6, text: "Question 6.", opts: ["A. planet", "B. planets", "C. planet's", "D. planets'"] }
+                                    ].map(item => (
+                                        <div key={item.q} className="p-4 rounded-xl border bg-gray-50/50">
+                                            <p className="font-bold text-gray-900 mb-3">{item.text}</p>
+                                            <div className="grid grid-cols-2 gap-2">
+                                                {item.opts.map((opt, i) => {
+                                                    const letter = String.fromCharCode(65 + i);
+                                                    const isSelected = answers[item.q] === letter;
+                                                    return (
+                                                        <label 
+                                                            key={letter} 
+                                                            className={`idp-radio-label ${isSelected ? 'selected' : ''}`}
+                                                        >
+                                                            <input 
+                                                                type="radio" 
+                                                                name={`q_${item.q}`} 
+                                                                checked={isSelected}
+                                                                onChange={() => handleAnswerChange(item.q, letter)}
+                                                            />
+                                                            <span className="text-sm font-medium">{opt}</span>
+                                                        </label>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* PART 2 QUESTIONS */}
+                            {currentPart === 2 && (
+                                <div className="space-y-6">
+                                    {[
+                                        { q: 7, text: "Question 7.", opts: ["A. increase", "B. prevent", "C. ignore", "D. worsen"] },
+                                        { q: 8, text: "Question 8.", opts: ["A. give up", "B. take up", "C. put off", "D. look down"] },
+                                        { q: 9, text: "Question 9.", opts: ["A. In addition to", "B. In spite of", "C. In case of", "D. In place of"] },
+                                        { q: 10, text: "Question 10.", opts: ["A. harmful", "B. careless", "C. responsible", "D. wasteful"] },
+                                        { q: 11, text: "Question 11.", opts: ["A. few", "B. little", "C. many", "D. much"] },
+                                        { q: 12, text: "Question 12.", opts: ["A. amount", "B. number", "C. level", "D. quality"] }
+                                    ].map(item => (
+                                        <div key={item.q} className="p-4 rounded-xl border bg-gray-50/50">
+                                            <p className="font-bold text-gray-900 mb-3">{item.text}</p>
+                                            <div className="grid grid-cols-2 gap-2">
+                                                {item.opts.map((opt, i) => {
+                                                    const letter = String.fromCharCode(65 + i);
+                                                    const isSelected = answers[item.q] === letter;
+                                                    return (
+                                                        <label 
+                                                            key={letter} 
+                                                            className={`idp-radio-label ${isSelected ? 'selected' : ''}`}
+                                                        >
+                                                            <input 
+                                                                type="radio" 
+                                                                name={`q_${item.q}`} 
+                                                                checked={isSelected}
+                                                                onChange={() => handleAnswerChange(item.q, letter)}
+                                                            />
+                                                            <span className="text-sm font-medium">{opt}</span>
+                                                        </label>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* PART 3 QUESTIONS */}
+                            {currentPart === 3 && (
+                                <div className="space-y-6">
+                                    {/* Q13 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 13.</p>
+                                        <div className="bg-white p-3 rounded border text-sm space-y-1 text-gray-800">
+                                            <p>a. Linh: I’ve started bringing a reusable bottle to reduce plastic waste.</p>
+                                            <p>b. Quang: Nice! I switched to a bamboo toothbrush last month.</p>
+                                            <p>c. Linh: Small habits add up when many people follow them.</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {["A. a – b – c", "B. b – a – c", "C. c – a – b", "D. a – c – b"].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[13] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_13" checked={answers[13] === letter} onChange={() => handleAnswerChange(13, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q14 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 14.</p>
+                                        <div className="bg-white p-3 rounded border text-sm space-y-1 text-gray-800">
+                                            <p>a. Mai: We’re organizing a clean-up at the lakeside on Sunday morning.</p>
+                                            <p>b. Tuan: Count me in. Should I bring gloves and bags?</p>
+                                            <p>c. Mai: Yes, and please ask your classmates, who live nearby, to join us.</p>
+                                            <p>d. Tuan: I’ll create a post with the meeting point and time.</p>
+                                            <p>e. Mai: Great; the more volunteers we have, the larger area we can cover.</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {["A. a – b – c – d – e", "B. b – a – c – d – e", "C. a – c – b – d – e", "D. a – b – d – c – e"].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[14] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_14" checked={answers[14] === letter} onChange={() => handleAnswerChange(14, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q15 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 15.</p>
+                                        <div className="bg-white p-3 rounded border text-sm space-y-1 text-gray-800">
+                                            <p className="font-bold">Dear City Council,</p>
+                                            <p>a. I propose installing more recycling bins in our district, especially near the market and bus stops.</p>
+                                            <p>b. Many residents want to sort their waste; however, the current facilities are limited and often full.</p>
+                                            <p>c. With better placement and clear labels, people will recycle more, which reduces landfill pressure.</p>
+                                            <p>d. I hope the committee can review this suggestion and share an action plan on the community website.</p>
+                                            <p>e. I am writing to the council to address the growing problem of mixed waste in public areas.</p>
+                                            <p className="font-bold pt-1">Sincerely,<br/>Alex Harrison</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {["A. e – b – c – a – d", "B. b – e – a – c – d", "C. e – a – b – c – d", "D. e – b – a – c – d"].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[15] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_15" checked={answers[15] === letter} onChange={() => handleAnswerChange(15, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q16 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 16.</p>
+                                        <div className="bg-white p-3 rounded border text-sm space-y-1 text-gray-800">
+                                            <p>a. Forests, which store carbon and protect biodiversity, are being cut down for short-term profit.</p>
+                                            <p>b. As a result, soil becomes poorer, rivers carry more sediment, and nearby towns face frequent floods.</p>
+                                            <p>c. However, community-managed forests show that locals can balance income with long-term health of the land.</p>
+                                            <p>d. When trees disappear, animals lose shelter, and insects that pollinate crops decline.</p>
+                                            <p>e. Therefore, policies must reward sustainable timber and penalize illegal logging to change incentives.</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {["A. d – a – b – e – c", "B. a – d – b – c – e", "C. a – b – d – e – c", "D. a – d – c – b – e"].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[16] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_16" checked={answers[16] === letter} onChange={() => handleAnswerChange(16, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q17 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 17.</p>
+                                        <div className="bg-white p-3 rounded border text-sm space-y-1 text-gray-800">
+                                            <p>a. Researcher: Our city’s air, which often looks hazy in the afternoon, contains high levels of PM2.5.</p>
+                                            <p>b. Journalist: Does traffic contribute the most, or are factories the main source?</p>
+                                            <p>c. Researcher: Traffic is the largest share; however, construction dust also raises the numbers during dry months.</p>
+                                            <p>d. Journalist: If buses were cleaner, would the air improve quickly?</p>
+                                            <p>e. Researcher: Yes, shifting to electric buses could reduce emissions notably within a year.</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {["A. a – c – b – d – e", "B. b – a – d – c – e", "C. a – b – c – d – e", "D. a – b – d – e – c"].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[17] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_17" checked={answers[17] === letter} onChange={() => handleAnswerChange(17, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* PART 4 QUESTIONS */}
+                            {currentPart === 4 && (
+                                <div className="space-y-6">
+                                    {/* Q18 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 18.</p>
+                                        <div className="space-y-2">
+                                            {[
+                                                "A. Rarely humanity encounter environmental challenges as complex as those we face today",
+                                                "B. Rarely humanity encounters environmental challenges as complex as those we face today",
+                                                "C. Rarely has humanity encountered environmental challenges as complex as those we face today",
+                                                "D. Rarely had humanity encountered environmental challenges as complex as those we face today"
+                                            ].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[18] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_18" checked={answers[18] === letter} onChange={() => handleAnswerChange(18, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q19 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 19.</p>
+                                        <div className="space-y-2">
+                                            {[
+                                                "A. Countries, that are most affected by sea-level rise, demand urgent international cooperation",
+                                                "B. Countries, which are most affected by sea-level rise, demand urgent international cooperation",
+                                                "C. Countries, whose are most affected by sea-level rise, demand urgent international cooperation",
+                                                "D. Countries, who are most affected by sea-level rise, demands urgent international cooperation"
+                                            ].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[19] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_19" checked={answers[19] === letter} onChange={() => handleAnswerChange(19, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q20 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 20.</p>
+                                        <div className="space-y-2">
+                                            {[
+                                                "A. Not only are governments investing in green technology, but citizens are also encouraged to adopt sustainable lifestyles",
+                                                "B. Not only governments invest in green technology, but citizens are also encouraged to adopt sustainable lifestyles",
+                                                "C. Not only governments are investing in green technology, but citizens are also encouraged to adopt sustainable lifestyles",
+                                                "D. Not only do governments investing in green technology, but citizens are also encouraged to adopt sustainable lifestyles"
+                                            ].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[20] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_20" checked={answers[20] === letter} onChange={() => handleAnswerChange(20, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q21 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 21.</p>
+                                        <div className="space-y-2">
+                                            {[
+                                                "A. cities, whose populations continue to grow, face mounting pressure on resources and infrastructure",
+                                                "B. cities, which populations continue to grow, face mounting pressure on resources and infrastructure",
+                                                "C. cities, that population continue to grow, face mounting pressure on resources and infrastructure",
+                                                "D. cities, whom populations continue to grow, face mounting pressure on resources and infrastructure"
+                                            ].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[21] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_21" checked={answers[21] === letter} onChange={() => handleAnswerChange(21, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q22 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 22.</p>
+                                        <div className="space-y-2">
+                                            {[
+                                                "A. These environmental crises, although alarming, demonstrates the urgency of global unity and innovation",
+                                                "B. These environmental crises, although alarming, demonstrate the urgency of global unity and innovation",
+                                                "C. These environmental crises, although alarming, demonstrate the urgency of global unite and innovation",
+                                                "D. These environmental crises, although alarming, demonstrating the urgency of global unity and innovation"
+                                            ].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[22] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_22" checked={answers[22] === letter} onChange={() => handleAnswerChange(22, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* PART 5 QUESTIONS */}
+                            {currentPart === 5 && (
+                                <div className="space-y-6">
+                                    {[
+                                        { q: 23, text: "Question 23. Which of the following best paraphrases the underlined sentence in paragraph 1?", opts: ["A. Environmental problems in cities need urgent action from leaders and people.", "B. Citizens and politicians must immediately address environmental issues together.", "C. Policymakers and residents should focus on environmental degradation problems.", "D. This decline in environmental quality requires prompt response from authorities and the public."] },
+                                        { q: 24, text: "Question 24. Which of the following is NOT mentioned as a source of urban pollution?", opts: ["A. industrial operations", "B. vehicle emissions", "C. agricultural pesticides", "D. waste management problems"] },
+                                        { q: 25, text: "Question 25. The word hazardous in paragraph 2 can be best replaced by ___________.", opts: ["A. dangerous", "B. beneficial", "C. natural", "D. temporary"] },
+                                        { q: 26, text: "Question 26. The word contamination in paragraph 3 is opposite in meaning to ___________.", opts: ["A. pollution", "B. purification", "C. infection", "D. discharge"] },
+                                        { q: 27, text: "Question 27. The word these in paragraph 4 refers to ___________.", opts: ["A. cities", "B. results", "C. measures", "D. levels"] },
+                                        { q: 28, text: "Question 28. Which of the following is TRUE according to the passage?", opts: ["A. All urban residents have equal access to clean drinking water supplies.", "B. Air pollution causes more health problems than water contamination.", "C. Green infrastructure projects have completely solved urban pollution.", "D. Environmental solutions require cooperation between multiple groups."] },
+                                        { q: 29, text: "Question 29. In which paragraph does the writer describe health impacts of pollution?", opts: ["A. Paragraph 1", "B. Paragraph 2", "C. Paragraph 3", "D. Paragraph 4"] },
+                                        { q: 30, text: "Question 30. In which paragraph does the writer discuss water pollution issues?", opts: ["A. Paragraph 1", "B. Paragraph 2", "C. Paragraph 3", "D. Paragraph 4"] }
+                                    ].map(item => (
+                                        <div key={item.q} className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                            <p className="font-bold text-gray-900">{item.text}</p>
+                                            <div className="space-y-2">
+                                                {item.opts.map((opt, i) => {
+                                                    const letter = String.fromCharCode(65 + i);
+                                                    const isSelected = answers[item.q] === letter;
+                                                    return (
+                                                        <label key={letter} className={`idp-radio-label ${isSelected ? 'selected' : ''}`}>
+                                                            <input type="radio" name={`q_${item.q}`} checked={isSelected} onChange={() => handleAnswerChange(item.q, letter)} />
+                                                            <span className="text-sm font-medium">{opt}</span>
+                                                        </label>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* PART 6 QUESTIONS */}
+                            {currentPart === 6 && (
+                                <div className="space-y-6">
+                                    {[
+                                        { q: 31, text: "Question 31. Where in paragraph 1 does the following sentence best fit?\n\"These changes threaten the delicate balance that has sustained life on Earth for millennia.\"", opts: ["A. [I]", "B. [II]", "C. [III]", "D. [IV]"] },
+                                        { q: 32, text: "Question 32. According to paragraph 2, which of the following is NOT mentioned as a manifestation of climate change?", opts: ["A. rising sea levels", "B. extreme weather events", "C. ocean acidification", "D. shifting agricultural zones"] },
+                                        { q: 33, text: "Question 33. Which of the following best summarises paragraph 3?", opts: ["A. Biodiversity loss through deforestation and pollution destroys ancient ecosystems, with marine environments facing severe degradation from acidification and plastic contamination affecting entire food webs.", "B. Species extinction rates have increased dramatically due to human activities, particularly affecting marine environments through ocean acidification and plastic pollution.", "C. Deforestation, habitat fragmentation, and pollution cause biodiversity loss, while marine environments suffer from degradation that primarily affects large marine animals.", "D. Environmental crises compound through biodiversity loss and ecosystem destruction, though marine environments remain relatively stable compared to terrestrial habitats."] },
+                                        { q: 34, text: "Question 34. The phrase this reality in paragraph 4 refers to ___________.", opts: ["A. individual consumer choices and systemic changes", "B. coordinated policy interventions and corporate responsibility", "C. environmental outcomes and lifestyle modifications", "D. sustainable living practices and renewable energy adoption"] },
+                                        { q: 35, text: "Question 35. The word unprecedented in paragraph 1 is closest in meaning to ___________.", opts: ["A. gradual", "B. unparalleled", "C. predictable", "D. reversible"] },
+                                        { q: 36, text: "Question 36. Which of the following best paraphrases the underlined sentence in paragraph 4?", opts: ["A. Personal consumption decisions have major environmental impacts, but comprehensive change needs organized government policies and business accountability.", "B. Consumer choices affect the environment significantly, while systemic modifications demand policy coordination and corporate responsibility programs.", "C. Individual purchasing decisions influence environmental results considerably, though systematic transformations require governmental and business cooperation.", "D. Personal consumer decisions create significant environmental effects, but systemic improvements need coordinated interventions from policymakers and corporations."] },
+                                        { q: 37, text: "Question 37. The word formidable in paragraph 2 is opposite in meaning to ___________.", opts: ["A. challenging", "B. manageable", "C. significant", "D. complex"] },
+                                        { q: 38, text: "Question 38. Which of the following is TRUE according to the passage?", opts: ["A. Developing nations have successfully balanced economic growth with environmental protection through clean technology implementation.", "B. Species extinction rates currently match natural background levels established over geological time periods.", "C. Marine environments experience severe degradation from both ocean acidification and plastic contamination affecting food webs.", "D. Current consumption patterns are compatible with planetary sustainability according to scientific communities worldwide."] },
+                                        { q: 39, text: "Question 39. Which of the following can be inferred from the passage?", opts: ["A. Environmental challenges are isolated problems that can be solved through individual actions without systemic changes.", "B. Addressing climate change and environmental degradation requires fundamental shifts in both personal behavior and institutional policies.", "C. Developing nations should prioritize economic growth over environmental protection to achieve prosperity.", "D. Technological solutions alone can resolve all environmental challenges without requiring lifestyle modifications."] },
+                                        { q: 40, text: "Question 40. Which of the following best summarises the passage?", opts: ["A. Human activities drive unprecedented environmental changes including climate change and biodiversity loss, requiring both individual behavior modifications and systematic policy interventions for sustainable solutions.", "B. Climate change represents the primary environmental challenge facing humanity, with developing nations struggling to balance economic growth and environmental protection.", "C. Environmental crises result from industrial emissions and biodiversity loss, though individual consumer choices and sustainable practices offer adequate solutions.", "D. Interconnected environmental challenges demand global responses, with marine degradation and species extinction requiring immediate technological interventions and corporate responsibility."] }
+                                    ].map(item => (
+                                        <div key={item.q} className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                            <p className="font-bold text-gray-900 whitespace-pre-line">{item.text}</p>
+                                            <div className="space-y-2">
+                                                {item.opts.map((opt, i) => {
+                                                    const letter = String.fromCharCode(65 + i);
+                                                    const isSelected = answers[item.q] === letter;
+                                                    return (
+                                                        <label key={letter} className={`idp-radio-label ${isSelected ? 'selected' : ''}`}>
+                                                            <input type="radio" name={`q_${item.q}`} checked={isSelected} onChange={() => handleAnswerChange(item.q, letter)} />
+                                                            <span className="text-sm font-medium">{opt}</span>
+                                                        </label>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Notes Side Panel */}
+                        {isNotesOpen && (
+                            <div className="w-80 bg-gray-100 border-l border-gray-300 flex flex-col z-30 shadow-lg">
+                                <div className="p-3 bg-white border-b flex justify-between items-center font-bold text-gray-800">
+                                    <span>Ghi chú cá nhân</span>
+                                    <button onClick={() => setIsNotesOpen(false)} className="text-gray-500 hover:text-gray-800 text-lg">&times;</button>
+                                </div>
+                                <div className="p-3 flex-1 flex flex-col">
+                                    <p className="text-xs text-gray-500 mb-2">Các đoạn chữ Highlight sẽ được thêm tự động vào đây.</p>
+                                    <textarea 
+                                        className="w-full flex-1 p-3 border border-gray-300 rounded-lg resize-none text-sm focus:outline-none focus:ring-1 focus:ring-[#0f5132] bg-yellow-50 selectable-text"
+                                        placeholder="Nhập ghi chú của bạn ở đây..."
+                                        value={notesText}
+                                        onChange={(e) => setNotesText(e.target.value)}
+                                    ></textarea>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Footer Navigation Bar */}
+                    <footer className="test-footer">
+                        <div className="flex items-center space-x-2">
+                            {[
+                                { part: 1, label: "Dạng 1", range: [1, 6] },
+                                { part: 2, label: "Dạng 2", range: [7, 12] },
+                                { part: 3, label: "Dạng 3", range: [13, 17] },
+                                { part: 4, label: "Dạng 4", range: [18, 22] },
+                                { part: 5, label: "Dạng 5", range: [23, 30] },
+                                { part: 6, label: "Dạng 6", range: [31, 40] }
+                            ].map(p => (
+                                <button 
+                                    key={p.part}
+                                    onClick={() => setCurrentPart(p.part)}
+                                    className={`nav-part-btn ${currentPart === p.part ? 'active' : ''}`}
+                                >
+                                    {p.label} <span className="text-xs text-gray-500 ml-1">({countPartAnswered(p.range[0], p.range[1])}/{p.range[1] - p.range[0] + 1})</span>
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="flex items-center space-x-3">
+                            <div className="hidden lg:flex items-center overflow-x-auto max-w-md">
+                                {Array.from({ length: 40 }, (_, i) => i + 1).map(q => (
+                                    <span 
+                                        key={q} 
+                                        className={`q-square ${answers[q] ? 'answered' : ''}`}
+                                        onClick={() => {
+                                            if (q <= 6) setCurrentPart(1);
+                                            else if (q <= 12) setCurrentPart(2);
+                                            else if (q <= 17) setCurrentPart(3);
+                                            else if (q <= 22) setCurrentPart(4);
+                                            else if (q <= 30) setCurrentPart(5);
+                                            else setCurrentPart(6);
+                                        }}
+                                    >
+                                        {q}
+                                    </span>
+                                ))}
+                            </div>
+
+                            <button 
+                                onClick={handleSubmitTest}
+                                className="ml-2 bg-[#0f5132] hover:bg-[#0b3d26] text-white text-xs font-bold px-5 py-2.5 rounded-lg shadow transition-all flex items-center space-x-1"
+                            >
+                                <span>✓ NỘP BÀI THI</span>
+                            </button>
+                        </div>
+                    </footer>
+
+                    {/* Report Modal after submission */}
+                    {isSubmitted && (
+                        <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+                            <div className="bg-white rounded-xl p-6 max-w-3xl w-full max-h-[92vh] overflow-y-auto custom-scrollbar">
+                                <div className="border-b pb-3 mb-4">
+                                    <h2 className="text-2xl font-black text-[#0f5132]">KẾT QUẢ BÀI THI THPT MÔN TIẾNG ANH - ĐỀ SỐ 02</h2>
+                                    <p className="text-xs text-gray-500">Hệ thống tự động chấm điểm và tổng hợp giải thích chi tiết</p>
+                                </div>
+                                
+                                {isSubmitting && (
+                                    <div className="p-3 bg-blue-50 text-blue-700 rounded-lg mb-4 text-center font-medium animate-pulse text-sm">
+                                        🔄 Đang đồng bộ kết quả lên Google Sheets (tab result)...
+                                    </div>
+                                )}
+                                {submitStatus && (
+                                    <div className="p-3 bg-green-50 text-green-800 rounded-lg mb-4 text-center font-bold text-sm">
+                                        {submitStatus}
+                                    </div>
+                                )}
+
+                                {(() => {
+                                    let correct = 0;
+                                    Object.keys(CORRECT_ANSWERS).forEach(qNum => {
+                                        if (answers[qNum] === CORRECT_ANSWERS[qNum]) {
+                                            correct += 1;
+                                        }
+                                    });
+                                    const score = (correct * 0.25).toFixed(2);
+
+                                    return (
+                                        <div>
+                                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-gray-50 p-4 rounded-xl text-center mb-6 border">
+                                                <div>
+                                                    <span className="block text-xs text-gray-500 font-semibold">MÃ THÍ SINH</span>
+                                                    <span className="font-bold text-base text-gray-800">{candidate.code}</span>
+                                                </div>
+                                                <div>
+                                                    <span className="block text-xs text-gray-500 font-semibold">HỌ TÊN</span>
+                                                    <span className="font-bold text-base text-gray-800">{candidate.name}</span>
+                                                </div>
+                                                <div>
+                                                    <span className="block text-xs text-gray-500 font-semibold">SỐ CÂU ĐÚNG</span>
+                                                    <span className="font-bold text-xl text-green-600">{correct} / 40</span>
+                                                </div>
+                                                <div>
+                                                    <span className="block text-xs text-gray-500 font-semibold">ĐIỂM SỐ</span>
+                                                    <span className="font-black text-2xl text-[#0f5132]">{score} / 10.0</span>
+                                                </div>
+                                            </div>
+
+                                            <h3 className="font-bold text-base text-gray-800 mb-3 border-b pb-1">Bảng Đáp Án & Giải Thích Chi Tiết:</h3>
+                                            <div className="space-y-2 text-xs">
+                                                {Object.keys(CORRECT_ANSWERS).map((qNum) => {
+                                                    const isCorr = answers[qNum] === CORRECT_ANSWERS[qNum];
+                                                    const userVal = answers[qNum] || 'Chưa làm';
+                                                    const keyVal = CORRECT_ANSWERS[qNum];
+                                                    const expl = EXPLANATIONS[qNum];
+
+                                                    return (
+                                                        <div key={qNum} className={`p-3 border rounded-lg ${isCorr ? 'bg-green-50/60 border-green-200' : 'bg-red-50/60 border-red-200'}`}>
+                                                            <div className="flex justify-between items-center mb-1">
+                                                                <span className="font-bold text-sm text-gray-900">Câu {qNum}:</span>
+                                                                <div>
+                                                                    <span className={`px-2 py-0.5 rounded font-bold ${isCorr ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'}`}>
+                                                                        Bạn chọn: {userVal}
+                                                                    </span>
+                                                                    <span className="ml-2 font-bold text-gray-700">Đáp án đúng: {keyVal}</span>
+                                                                </div>
+                                                            </div>
+                                                            <p className="text-gray-600 italic mt-1">💡 <strong>Giải thích:</strong> {expl}</p>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    );
+                                })()}
+
+                                <button 
+                                    onClick={() => window.location.reload()}
+                                    className="mt-6 w-full bg-gray-800 text-white py-3 rounded-lg font-bold hover:bg-black transition-colors"
+                                >
+                                    LÀM LẠI BÀI THI
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
