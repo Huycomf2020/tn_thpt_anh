@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KỲ THI TỐT NGHIỆP THPT - MÔN TIẾNG ANH - ĐỀ SỐ 04</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f4f5f7;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .selectable-text {
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+        }
+
+        .aplus-brand {
+            color: #0f5132;
+            font-weight: 900;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .header-top {
+            height: 56px;
+            background: #ffffff;
+            border-bottom: 1px solid #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 20;
+        }
+
+        .part-header-banner {
+            background-color: #f3f4f6;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0.6rem 1.5rem;
+            font-size: 0.9rem;
+            color: #1f2937;
+            font-weight: 500;
+        }
+
+        .main-workspace {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .passage-pane {
+            overflow-y: auto;
+            padding: 2rem;
+            background: #f9fafb;
+            border-right: 1px solid #e5e7eb;
+        }
+
+        .questions-pane {
+            overflow-y: auto;
+            padding: 2rem;
+            background: #ffffff;
+        }
+
+        .resizer {
+            width: 8px;
+            background: #e5e7eb;
+            cursor: col-resize;
+            transition: background 0.2s;
+            position: relative;
+            z-index: 10;
+        }
+        .resizer:hover, .resizer.resizing {
+            background: #0f5132;
+        }
+
+        .ielts-highlight {
+            background-color: #fef08a;
+            color: #1e293b;
+            padding: 0 2px;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .idp-popover {
+            position: absolute;
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            z-index: 100;
+            padding: 4px;
+        }
+
+        .idp-popover-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            color: #4b5563;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.15s;
+        }
+
+        .idp-popover-btn:hover {
+            background-color: #f3f4f6;
+            color: #111827;
+        }
+
+        .test-footer {
+            height: 60px;
+            background: #ffffff;
+            border-top: 1px solid #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 20;
+        }
+
+        .nav-part-btn {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #374151;
+            border-radius: 4px;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .nav-part-btn.active {
+            color: #0f5132;
+            background-color: #e8f5e9;
+        }
+
+        .q-square {
+            width: 26px;
+            height: 26px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid #9ca3af;
+            border-radius: 3px;
+            background: #fff;
+            color: #374151;
+            cursor: pointer;
+            margin: 0 2px;
+        }
+
+        .q-square.answered {
+            background-color: #0f5132;
+            color: #ffffff;
+            font-weight: 700;
+            border-color: #0f5132;
+        }
+
+        .q-square.active {
+            border: 2px solid #f97316;
+            color: #f97316;
+            font-weight: 700;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .idp-radio-label {
+            display: flex;
+            align-items: flex-start;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 6px;
+            transition: all 0.15s;
+        }
+        .idp-radio-label:hover {
+            background-color: #f3f4f6;
+            border-color: #d1d5db;
+        }
+        .idp-radio-label.selected {
+            background-color: #f0fdf4;
+            border-color: #16a34a;
+        }
+        .idp-radio-label input[type="radio"] {
+            margin-top: 3px;
+            margin-right: 12px;
+            accent-color: #0f5132;
+            width: 16px;
+            height: 16px;
+        }
+    </style>
+    <!-- React CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useCallback, useRef } = React;
+
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwUv3CY-PXc2OjS69BQ1K0Xz6s4YQisQYruj_J29K0kqIL5feLRInX3rb5c2sXn0uj_/exec";
+
+        const CORRECT_ANSWERS = {
+            1: "C", 2: "C", 3: "C", 4: "C", 5: "A", 6: "B",
+            7: "B", 8: "B", 9: "A", 10: "C", 11: "B", 12: "D",
+            13: "D", 14: "C", 15: "B", 16: "A", 17: "A",
+            18: "C", 19: "C", 20: "A", 21: "B", 22: "B",
+            23: "D", 24: "C", 25: "A", 26: "B", 27: "C", 28: "C", 29: "C", 30: "D",
+            31: "B", 32: "C", 33: "A", 34: "A", 35: "B", 36: "D", 37: "C", 38: "B", 39: "B", 40: "A"
+        };
+
+        const EXPLANATIONS = {
+            1: "Cần một danh từ đứng sau tính từ 'active' làm tân ngữ cho 'requires'. Chọn 'participation'.",
+            2: "Cấu trúc song song 'as simple as + V-ing'. Trước là 'helping out', sau phải chọn 'joining'.",
+            3: "Cụm động từ cố định: 'focus on' (tập trung vào).",
+            4: "Trật tự tính từ: Opinion (beautiful) - Size (big) - Color (green). Thứ tự đúng: 'beautiful big green'.",
+            5: "Collocation: 'take an active role' (đóng vai trò tích cực).",
+            6: "Rút gọn mệnh đề quan hệ dạng chủ động (individuals who want -> individuals wanting).",
+            7: "Động từ 'solve' (giải quyết) phù hợp với ngữ cảnh xử lý các vấn đề địa phương.",
+            8: "Phrasal verb 'take on' nghĩa là đảm nhận/thực hiện công việc tình nguyện.",
+            9: "Cụm từ liên kết 'Rather than' (thay vì) thể hiện sự đối lập và so sánh với nỗ lực cá nhân đơn lẻ.",
+            10: "Tính từ 'welcoming' (thân thiện, chào đón) phù hợp môi trường công cộng tích cực.",
+            11: "Dùng 'little' đi với danh từ không đếm được 'time' ('a little time').",
+            12: "Cụm 'the number of' đi với danh từ đếm được số nhiều 'active volunteers'.",
+            13: "Trật tự hội thoại: Mai thu thập sách (a) -> Phúc đưa ra các cuốn tiểu thuyết (b) -> Mai cảm ơn trân trọng (c).",
+            14: "Mạch hội thoại: Thu giới thiệu lớp học an toàn điện thoại (a) -> Long hưởng ứng (b) -> Thu nêu nội dung thực hành (c) -> Long hỗ trợ phòng & máy chiếu (d) -> Thu cảm ơn và chốt tài liệu (e).",
+            15: "Cấu trúc lá thư xin hỗ trợ: Kêu gọi hỗ trợ kho thực phẩm (b) -> Mục tiêu cấp bữa ăn (a) -> Quy trình giao kín đáo (d) -> Quyền lợi tài trợ logo (c) -> Lời mời liên hệ (e).",
+            16: "Mạch văn đoạn văn: Nguyên tắc khu phố sạch đẹp (b) -> Cuộc họp cư dân tạo niềm tin (a) -> Ví dụ giờ sửa chữa (c) -> Bảng thông báo quy tắc (d) -> Kết quả khu phố thân thiện (e).",
+            17: "Hội thoại trạm súp: Điều phối viên cần thêm người (a) -> Thành viên nhận ca sớm (b) -> Điều phối viên nhờ dán nhãn món chay (c) -> Thành viên đồng ý (d) -> Lời hẹn 7h sáng (e).",
+            18: "Mệnh đề quan hệ không hạn định: 'Communities, which rely on shared responsibility,...'.",
+            19: "Cấu trúc đảo ngữ với 'Rarely': 'Rarely do local projects receive...'.",
+            20: "Cấu trúc đảo ngữ 'Not only do leaders encourage..., but they also inspire...'.",
+            21: "Mệnh đề quan hệ sở hữu: 'grassroots organizations, whose efforts are often overlooked,...'.",
+            22: "Chủ ngữ số nhiều 'These collective achievements...' đi với động từ nguyên mẫu số nhiều 'demonstrate'.",
+            23: "Câu gạch chân nhấn mạnh các dự án khu phố giúp mọi người tác động tích cực thông qua hoạt động hợp tác.",
+            24: "'Các chiến dịch gây quỹ' (fundraising campaigns) KHÔNG được đề cập làm hoạt động tình nguyện phổ biến ở đoạn 2.",
+            25: "Tính từ 'substantial' (đáng kể) đồng nghĩa với 'significant'.",
+            26: "Từ 'retention' (việc giữ chân tình nguyện viên) trái nghĩa với 'departure' (sự rời đi).",
+            27: "Đại từ 'these' ở đoạn 1 quy chiếu về 'grassroots initiatives' (các sáng kiến cơ sở).",
+            28: "Đoạn 3 khẳng định người tham gia tình nguyện nhận được nhiều lợi ích phát triển chuyên môn.",
+            29: "Lợi ích đối với chính các tình nguyện viên được trình bày chi tiết ở Đoạn 3.",
+            30: "Các thách thức trong quản lý chương trình (tuyển dụng, giữ chân, nguồn lực) nằm ở Đoạn 4.",
+            31: "Câu chèn về 'sức sống dân chủ qua việc tham gia của người dân' đặt ở vị trí [II] ngay sau câu giới thiệu huy động công dân.",
+            32: "'Bồi thường tài chính' (financial compensation) KHÔNG được đề cập làm lợi ích cho tình nguyện viên.",
+            33: "Đoạn 3 tóm tắt ưu thế của sáng kiến địa phương nhờ hiểu biết sâu sắc và lưu ý giữ chân tình nguyện viên tránh kiệt sức.",
+            34: "Cụm 'this digital connectivity' quy chiếu trực tiếp đến việc các nền tảng mạng xã hội cách mạng hóa tuyển dụng tình nguyện viên.",
+            35: "Tính từ 'reciprocal' (tương hỗ, hai chiều) đồng nghĩa với 'mutual'.",
+            36: "Diễn giải tương đương câu gạch chân về các dự án cải thiện khu dân cư, an ninh lương thực và hỗ trợ giáo dục phát triển tự nhiên từ ưu tiên của cư dân.",
+            37: "Từ 'intimate' (sâu sát, kỹ lưỡng) trái nghĩa với 'superficial' (hời hợt, nông cạn).",
+            38: "Theo đoạn 2, thanh thiếu niên tham gia phục vụ cộng đồng giúp nuôi dưỡng lòng đồng cảm và kỹ năng lãnh đạo.",
+            39: "Suy luận từ bài: Phát triển cộng đồng thành công kết hợp giữa tri thức địa phương với hệ thống hỗ trợ và ghi nhận của tổ chức.",
+            40: "Tóm tắt bao quát toàn bài: Hoạt động tình nguyện củng cố gắn kết xã hội, sáng kiến địa phương thành công nhờ hiểu văn hóa, công nghệ hỗ trợ điều phối."
+        };
+
+        const SetupScreen = ({ onStartTest }) => {
+            const [code, setCode] = useState('');
+            const [name, setName] = useState('');
+            const [error, setError] = useState('');
+
+            const handleSubmit = () => {
+                if (!code.trim() || !name.trim()) {
+                    setError('Vui lòng nhập đầy đủ Mã thí sinh / Lớp và Họ tên.');
+                    return;
+                }
+                onStartTest(code, name);
+            };
+
+            return (
+                <div className="fixed inset-0 bg-gray-100 flex items-center justify-center p-4 z-50">
+                    <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md border-t-4 border-[#0f5132]">
+                        <div className="text-center mb-6">
+                            <h2 className="text-xl font-black text-[#0f5132] tracking-wide">TRUNG TÂM NGOẠI NGỮ APLUS</h2>
+                            <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">Kỳ Thi Tốt Nghiệp THPT Quốc Gia</p>
+                            <h1 className="text-2xl font-black text-gray-800 mt-2">MÔN TIẾNG ANH - ĐỀ SỐ 04</h1>
+                            <p className="text-xs text-gray-600 mt-1">Thời gian làm bài: 50 phút | Mã đề: 1126</p>
+                        </div>
+                        
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-700 mb-1">Mã số Thí sinh / Lớp</label>
+                                <input 
+                                    type="text" 
+                                    value={code}
+                                    onChange={(e) => setCode(e.target.value)}
+                                    className="block w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-[#0f5132] focus:border-[#0f5132] text-sm" 
+                                    placeholder="Ví dụ: 12A1 / TS2026"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-700 mb-1">Họ và Tên Thí sinh</label>
+                                <input 
+                                    type="text" 
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className="block w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-[#0f5132] focus:border-[#0f5132] text-sm" 
+                                    placeholder="Ví dụ: Phan Ngọc Huy"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="mt-4 bg-amber-50 p-3 rounded-lg border border-amber-200 text-xs text-amber-800">
+                            <strong>⚠️ Lưu ý kỳ thi:</strong> Bật chế độ Toàn màn hình (Fullscreen). Hệ thống sẽ tự động ghi nhận nếu thí sinh chuyển tab hoặc thoát màn hình làm bài.
+                        </div>
+                        
+                        {error && <p className="text-red-500 text-xs mt-3 text-center font-bold">{error}</p>}
+                        
+                        <button 
+                            onClick={handleSubmit}
+                            className="mt-6 w-full bg-[#0f5132] text-white py-3.5 rounded-lg font-bold hover:bg-[#0b3d26] transition-colors shadow-lg flex items-center justify-center space-x-2"
+                        >
+                            <span>BẮT ĐẦU LÀM BÀI (FULLSCREEN)</span>
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [appState, setAppState] = useState('setup');
+            const [candidate, setCandidate] = useState({ code: '', name: '' });
+            const [answers, setAnswers] = useState({});
+            const [currentPart, setCurrentPart] = useState(1);
+            const [timeLeft, setTimeLeft] = useState(50 * 60);
+            const [warningCount, setWarningCount] = useState(0);
+            const [showWarningModal, setShowWarningModal] = useState(false);
+            const [isSubmitted, setIsSubmitted] = useState(false);
+            const [isSubmitting, setIsSubmitting] = useState(false);
+            const [submitStatus, setSubmitStatus] = useState('');
+            const [isNotesOpen, setIsNotesOpen] = useState(false);
+            const [notesText, setNotesText] = useState('');
+
+            // Resizable split pane width percentage
+            const [leftWidth, setLeftWidth] = useState(48);
+            const isResizing = useRef(false);
+
+            const [popover, setPopover] = useState({ visible: false, x: 0, y: 0, mode: 'create', node: null, text: '' });
+
+            const reEnterFullscreen = () => {
+                const elem = document.documentElement;
+                if (!document.fullscreenElement && elem.requestFullscreen) {
+                    elem.requestFullscreen().catch(() => {});
+                }
+            };
+
+            const handleCloseWarningModal = () => {
+                setShowWarningModal(false);
+                reEnterFullscreen();
+            };
+
+            // Anti copy & context menu
+            useEffect(() => {
+                const preventDefault = (e) => e.preventDefault();
+                document.addEventListener('contextmenu', preventDefault);
+                document.addEventListener('copy', preventDefault);
+                return () => {
+                    document.removeEventListener('contextmenu', preventDefault);
+                    document.removeEventListener('copy', preventDefault);
+                };
+            }, []);
+
+            // Resizer handlers
+            const startResizing = useCallback((e) => {
+                isResizing.current = true;
+                document.addEventListener('mousemove', handleMouseMove);
+                document.addEventListener('mouseup', stopResizing);
+            }, []);
+
+            const handleMouseMove = useCallback((e) => {
+                if (!isResizing.current) return;
+                const newWidth = (e.clientX / window.innerWidth) * 100;
+                if (newWidth > 20 && newWidth < 80) {
+                    setLeftWidth(newWidth);
+                }
+            }, []);
+
+            const stopResizing = useCallback(() => {
+                isResizing.current = false;
+                document.removeEventListener('mousemove', handleMouseMove);
+                document.removeEventListener('mouseup', stopResizing);
+            }, []);
+
+            // Highlight & Notes popover
+            const handleMouseUp = (e) => {
+                const target = e.target;
+                if (target.classList.contains('ielts-highlight')) {
+                    const rect = target.getBoundingClientRect();
+                    setPopover({
+                        visible: true,
+                        x: rect.left + window.scrollX + (rect.width / 2) - 40,
+                        y: rect.top + window.scrollY - 55,
+                        mode: 'delete',
+                        node: target,
+                        text: ''
+                    });
+                    return;
+                }
+
+                const selection = window.getSelection();
+                if (selection && selection.toString().trim().length > 0) {
+                    const range = selection.getRangeAt(0);
+                    const rect = range.getBoundingClientRect();
+                    setPopover({
+                        visible: true,
+                        x: rect.left + window.scrollX + (rect.width / 2) - 60,
+                        y: rect.top + window.scrollY - 55,
+                        mode: 'create',
+                        node: null,
+                        text: selection.toString().trim()
+                    });
+                } else if (!e.target.closest('.idp-popover')) {
+                    setPopover({ visible: false, x: 0, y: 0, mode: 'create', node: null, text: '' });
+                }
+            };
+
+            const applyHighlight = () => {
+                const selection = window.getSelection();
+                if (!selection.rangeCount) return;
+                const range = selection.getRangeAt(0);
+                const span = document.createElement('span');
+                span.className = 'ielts-highlight';
+                span.appendChild(range.extractContents());
+                range.insertNode(span);
+                selection.removeAllRanges();
+                setPopover({ visible: false, x: 0, y: 0, mode: 'create', node: null, text: '' });
+            };
+
+            const removeHighlight = () => {
+                if (popover.node) {
+                    const parent = popover.node.parentNode;
+                    while (popover.node.firstChild) {
+                        parent.insertBefore(popover.node.firstChild, popover.node);
+                    }
+                    parent.removeChild(popover.node);
+                }
+                setPopover({ visible: false, x: 0, y: 0, mode: 'create', node: null, text: '' });
+            };
+
+            const handleCreateNote = () => {
+                setIsNotesOpen(true);
+                if (popover.text) {
+                    setNotesText(prev => prev ? `${prev}\n- ${popover.text}` : `- ${popover.text}`);
+                }
+                setPopover({ visible: false, x: 0, y: 0, mode: 'create', node: null, text: '' });
+            };
+
+            // Anti-cheat detection
+            useEffect(() => {
+                if (appState !== 'testing' || isSubmitted) return;
+
+                const handleVisibilityChange = () => {
+                    if (document.hidden) {
+                        setWarningCount(prev => prev + 1);
+                        setShowWarningModal(true);
+                    }
+                };
+
+                const handleFullscreenChange = () => {
+                    if (!document.fullscreenElement && !isSubmitted) {
+                        setWarningCount(prev => prev + 1);
+                        setShowWarningModal(true);
+                    }
+                };
+
+                document.addEventListener('visibilitychange', handleVisibilityChange);
+                document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+                return () => {
+                    document.removeEventListener('visibilitychange', handleVisibilityChange);
+                    document.removeEventListener('fullscreenchange', handleFullscreenChange);
+                };
+            }, [appState, isSubmitted]);
+
+            // Countdown timer
+            useEffect(() => {
+                if (appState !== 'testing' || isSubmitted) return;
+                const timer = setInterval(() => {
+                    setTimeLeft(prev => {
+                        if (prev <= 1) {
+                            clearInterval(timer);
+                            handleSubmitTest();
+                            return 0;
+                        }
+                        return prev - 1;
+                    });
+                }, 1000);
+                return () => clearInterval(timer);
+            }, [appState, isSubmitted]);
+
+            const handleStartTest = (code, name) => {
+                setCandidate({ code, name });
+                setAppState('testing');
+                reEnterFullscreen();
+            };
+
+            const handleAnswerChange = (qNum, val) => {
+                setAnswers(prev => ({ ...prev, [qNum]: val }));
+            };
+
+            const countPartAnswered = (start, end) => {
+                let cnt = 0;
+                for (let i = start; i <= end; i++) {
+                    if (answers[i]) cnt++;
+                }
+                return cnt;
+            };
+
+            const handleSubmitTest = async () => {
+                setIsSubmitted(true);
+                setIsSubmitting(true);
+
+                let correctCount = 0;
+                Object.keys(CORRECT_ANSWERS).forEach(qNum => {
+                    if (answers[qNum] === CORRECT_ANSWERS[qNum]) {
+                        correctCount += 1;
+                    }
+                });
+
+                const finalScore = (correctCount * 0.25).toFixed(2);
+
+                const payload = {
+                    sheetName: "result",
+                    testType: "KỲ THI TNTHPT - TIẾNG ANH - ĐỀ SỐ 04",
+                    candidateCode: candidate.code,
+                    candidateName: candidate.name,
+                    correctCount: `${correctCount}/40`,
+                    score: finalScore,
+                    warningCount: warningCount
+                };
+
+                try {
+                    await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    setSubmitStatus('✅ Đã nộp bài & lưu kết quả thành công vào hệ thống!');
+                } catch (err) {
+                    setSubmitStatus('❌ Có lỗi khi gửi kết quả. Vui lòng chụp lại màn hình!');
+                } finally {
+                    setIsSubmitting(false);
+                }
+            };
+
+            const formatMinutesLeft = (seconds) => {
+                const m = Math.floor(seconds / 60);
+                const s = seconds % 60;
+                return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+            };
+
+            if (appState === 'setup') {
+                return <SetupScreen onStartTest={handleStartTest} />;
+            }
+
+            return (
+                <div className="h-screen flex flex-col" onMouseUp={handleMouseUp}>
+                    {/* Popover Menu for Text Highlight & Note */}
+                    {popover.visible && (
+                        <div className="idp-popover" style={{ top: `${popover.y}px`, left: `${popover.x}px` }}>
+                            {popover.mode === 'create' ? (
+                                <>
+                                    <button onClick={handleCreateNote} className="idp-popover-btn border-r">
+                                        <svg className="w-4 h-4 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                                        Ghi chú
+                                    </button>
+                                    <button onClick={applyHighlight} className="idp-popover-btn">
+                                        <svg className="w-4 h-4 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                                        Highlight
+                                    </button>
+                                </>
+                            ) : (
+                                <button onClick={removeHighlight} className="idp-popover-btn text-red-600">
+                                    <svg className="w-4 h-4 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    Xóa Highlight
+                                </button>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Anti-cheat Warning Modal */}
+                    {showWarningModal && (
+                        <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-[999] backdrop-blur-sm">
+                            <div className="bg-white rounded-xl p-6 max-w-md w-full shadow-2xl border-t-8 border-red-600 text-center">
+                                <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                </div>
+                                <h3 className="text-xl font-bold text-gray-900 mb-2">CẢNH BÁO VI PHẠM KỲ THI</h3>
+                                <p className="text-sm text-gray-600 mb-4">
+                                    Hệ thống phát hiện bạn vừa <strong>chuyển tab</strong> hoặc <strong>thoát Toàn màn hình (Fullscreen)</strong>.
+                                </p>
+                                <div className="bg-red-50 text-red-700 p-3 rounded-lg font-bold text-xs mb-6 border border-red-200">
+                                    Số lần vi phạm ghi nhận: {warningCount}
+                                </div>
+                                <button 
+                                    onClick={handleCloseWarningModal}
+                                    className="w-full bg-[#0f5132] hover:bg-[#0b3d26] text-white py-3 rounded-lg font-bold transition-all shadow-md flex items-center justify-center space-x-2"
+                                >
+                                    <span>Quay lại bài thi (Mở Fullscreen)</span>
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Top Header */}
+                    <header className="header-top">
+                        <div className="flex items-center space-x-6">
+                            <div className="aplus-brand">APLUS</div>
+                            <div className="text-xs text-gray-700 font-medium">
+                                Thí sinh: <span className="font-bold text-gray-900">{candidate.name} ({candidate.code})</span>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center space-x-2 bg-amber-50 border border-amber-200 px-4 py-1.5 rounded-full">
+                            <span className="text-xs font-semibold text-amber-800">Thời gian còn lại:</span>
+                            <span className="font-black text-base text-[#f97316]">{formatMinutesLeft(timeLeft)}</span>
+                        </div>
+
+                        <div className="flex items-center space-x-4 text-gray-600">
+                            {warningCount > 0 && (
+                                <span className="text-xs bg-red-100 text-red-700 px-2.5 py-1 rounded-full font-bold border border-red-300">
+                                    Vi phạm: {warningCount}
+                                </span>
+                            )}
+                            <svg 
+                                className={`w-5 h-5 cursor-pointer ${isNotesOpen ? 'text-[#0f5132]' : 'hover:text-gray-900'}`} 
+                                fill="none" 
+                                stroke="currentColor" 
+                                viewBox="0 0 24 24"
+                                onClick={() => setIsNotesOpen(!isNotesOpen)}
+                                title="Ghi chú"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                        </div>
+                    </header>
+
+                    {/* Part Title Banner */}
+                    <div className="part-header-banner flex justify-between items-center">
+                        <div>
+                            <span className="font-bold text-[#0f5132]">
+                                {currentPart === 1 && "Dạng 1: Đọc Điền Thông Báo (Câu 1 - 6)"}
+                                {currentPart === 2 && "Dạng 2: Đọc Điền Tờ Rơi (Câu 7 - 12)"}
+                                {currentPart === 3 && "Dạng 3: Sắp Xếp Đoạn Hội Thoại / Thư / Đoạn Văn (Câu 13 - 17)"}
+                                {currentPart === 4 && "Dạng 4: Đọc Điền Khuyết Thông Tin (Câu 18 - 22)"}
+                                {currentPart === 5 && "Dạng 5: Đọc Hiểu 8 Câu (Câu 23 - 30)"}
+                                {currentPart === 6 && "Dạng 6: Đọc Hiểu 10 Câu (Câu 31 - 40)"}
+                            </span>
+                        </div>
+                        <div className="text-xs text-gray-500 font-medium">
+                            Kéo thanh giữa để thay đổi độ rộng 2 bảng
+                        </div>
+                    </div>
+
+                    {/* Main Resizable Workspace */}
+                    <div className="main-workspace">
+                        {/* Left Pane: Passage Context */}
+                        <div 
+                            className="passage-pane custom-scrollbar selectable-text" 
+                            style={{ width: `${leftWidth}%` }}
+                        >
+                            {currentPart === 1 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">READING PASSAGE 1</h3>
+                                    <p className="text-sm text-gray-600 italic">Read the following passage and mark the letter A, B, C, or D on your answer sheet to indicate the option that best fits each of the numbered blanks from 1 to 6.</p>
+                                    
+                                    <div className="bg-white p-6 rounded-xl border shadow-sm leading-relaxed text-base text-gray-800 space-y-3">
+                                        <p>
+                                            Building a strong and vibrant community requires the active <strong>(1) ____________</strong> of all its members. When people work together, great things can happen. One of the most common ways to contribute is through volunteering. This can be as simple as helping out at a local school or <strong>(2) ____________</strong> a neighborhood clean-up event. Many communities are now focusing <strong>(3) ____________</strong> sustainable projects, such as creating new public parks. Our city recently built a <strong>(4) ____________</strong> park for everyone to enjoy. It is important to <strong>(5) ____________</strong> an active role in community life. Furthermore, individuals <strong>(6) ____________</strong> to make a difference can start small by helping their neighbors. By working together, we can ensure a better future for everyone.
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {currentPart === 2 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">READING PASSAGE 2 (BROCHURE)</h3>
+                                    <p className="text-sm text-gray-600 italic">Read the following passage and mark the letter A, B, C, or D on your answer sheet to indicate the option that best fits each of the numbered blanks from 7 to 12.</p>
+                                    
+                                    <div className="bg-white p-6 rounded-xl border shadow-sm leading-relaxed text-sm text-gray-800 space-y-4">
+                                        <h4 className="font-black text-center text-lg text-[#0f5132] uppercase">BUILDING A BETTER COMMUNITY TOGETHER</h4>
+                                        
+                                        <div className="space-y-3">
+                                            <p>• <strong>Why Community Matters:</strong> Strong communities are built on trust, cooperation, and mutual support. When neighbors work together, they can <strong>(7) ____________</strong> local problems more effectively and create a safer, more welcoming environment for everyone.</p>
+                                            <p>• <strong>Get Involved in Local Initiatives:</strong> There are many ways to contribute to your community's well-being. Residents can <strong>(8) ____________</strong> volunteer work at local charities, food banks, or community centers to make a meaningful difference.</p>
+                                            <p>• <strong>Power of Collective Action:</strong> <strong>(9) ____________</strong> individual efforts alone, organized community projects such as neighborhood clean-up campaigns and fundraising events achieve far greater impact and lasting change.</p>
+                                            <p>• <strong>Foster Inclusive Spaces:</strong> Creating <strong>(10) ____________</strong> public spaces where people from all backgrounds feel welcome is essential for building social cohesion and promoting understanding among diverse community members.</p>
+                                            <p>• <strong>Small Actions, Big Impact:</strong> Even contributing <strong>(11) ____________</strong> time each week to community activities, such as helping elderly neighbors or participating in local meetings, can strengthen social bonds significantly.</p>
+                                            <p>• <strong>Growing Participation:</strong> Community engagement is on the rise, with the <strong>(12) ____________</strong> of active volunteers in neighborhood associations and civic groups increasing steadily across the region.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {currentPart === 3 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">ARRANGEMENT OF UTTERANCES</h3>
+                                    <p className="text-sm text-gray-600 italic">Mark the letter A, B, C or D to indicate the best arrangement of utterances or sentences to make a meaningful exchange or text in each of the questions from 13 to 17.</p>
+                                    
+                                    <div className="bg-white p-5 rounded-xl border shadow-sm text-sm space-y-3 text-gray-700">
+                                        <p className="font-semibold text-gray-900">Hướng dẫn làm bài:</p>
+                                        <p>Đọc kỹ các câu/lời thoại riêng lẻ ở bảng bên phải, phân tích mối quan hệ logic, tính liên kết về mặt ngữ nghĩa và từ nối để sắp xếp thành đoạn hội thoại, lá thư hoặc văn bản hoàn chỉnh.</p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {currentPart === 4 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">READING PASSAGE 3</h3>
+                                    <p className="text-sm text-gray-600 italic">Read the following passage and mark the letter A, B, C, or D to indicate the correct option that best fits each of the numbered blanks from 18 to 22.</p>
+                                    
+                                    <div className="bg-white p-6 rounded-xl border shadow-sm leading-relaxed text-[#1e293b] space-y-4 text-base">
+                                        <p>
+                                            Communities thrive when individuals come together to address shared needs and aspirations. <strong>(18) ____________</strong>. Acts of volunteering, charity, and public engagement strengthen bonds among members.
+                                        </p>
+                                        <p>
+                                            Local initiatives often focus on education, healthcare, and infrastructure. <strong>(19) ____________</strong>. Collaboration between citizens and institutions ensures resources are used effectively.
+                                        </p>
+                                        <p>
+                                            <strong>(20) ____________</strong>. Community leaders emphasize the importance of inclusivity and equal opportunity. Ensuring all voices are heard helps prevent division and promotes long-term unity.
+                                        </p>
+                                        <p>
+                                            In some areas, <strong>(21) ____________</strong>. From organizing neighborhood cleanups to establishing cultural festivals, these groups play a crucial role in shaping civic life.
+                                        </p>
+                                        <p>
+                                            Ultimately, the power of community lies in collective effort. <strong>(22) ____________</strong>. When people join forces, they create lasting change that benefits everyone.
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {currentPart === 5 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">READING PASSAGE 4 (8 QUESTIONS)</h3>
+                                    <p className="text-sm text-gray-600 italic">Read the following passage and mark the letter A, B, C, or D to indicate the correct answer to each of the questions from 23 to 30.</p>
+                                    
+                                    <div className="bg-white p-6 rounded-xl border shadow-sm leading-relaxed text-base text-gray-800 space-y-4">
+                                        <p>
+                                            Community volunteering has emerged as a powerful mechanism for addressing local social challenges while fostering civic engagement among residents. <span className="underline decoration-2 decoration-[#0f5132] font-semibold">These grassroots initiatives enable individuals to contribute meaningfully to community development, creating positive social impact through collective action and shared responsibility for neighborhood improvement.</span>
+                                        </p>
+                                        <p>
+                                            Volunteer programs offer diverse opportunities for community members to participate according to their skills, interests, and available time commitments. Educational tutoring, elderly assistance, environmental cleanup, and food distribution represent common volunteer activities that directly benefit vulnerable populations and enhance overall community well-being. Such programs strengthen social bonds between neighbors and build trust within local networks.
+                                        </p>
+                                        <p>
+                                            Research consistently demonstrates that volunteering provides <strong>substantial</strong> benefits for participants beyond the satisfaction of helping others. Volunteers develop valuable professional skills, expand social connections, and experience improved mental health through meaningful engagement with community issues. Many individuals discover new career paths or develop leadership abilities through their volunteer experiences.
+                                        </p>
+                                        <p>
+                                            However, sustaining effective volunteer programs requires careful coordination and ongoing support from community organizations. Recruitment challenges, volunteer <strong>retention</strong> difficulties, and resource limitations often threaten program continuity. Successful initiatives depend on strong organizational leadership, clear communication channels, and recognition systems that acknowledge volunteer contributions while maintaining participant motivation and commitment.
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {currentPart === 6 && (
+                                <div className="space-y-4">
+                                    <h3 className="font-bold text-lg text-gray-900 border-b pb-2">READING PASSAGE 5 (10 QUESTIONS)</h3>
+                                    <p className="text-sm text-gray-600 italic">Read the following passage and mark the letter A, B, C, or D to indicate the correct answer to each of the questions from 31 to 40.</p>
+                                    
+                                    <div className="bg-white p-6 rounded-xl border shadow-sm leading-relaxed text-base text-gray-800 space-y-4">
+                                        <p>
+                                            <strong>[I]</strong> Community volunteerism has emerged as a cornerstone of social cohesion, addressing local challenges while fostering civic engagement among diverse populations. <strong>[II]</strong> Grassroots organizations worldwide mobilize citizens to tackle pressing issues ranging from poverty alleviation to environmental conservation. <strong>[III]</strong> The transformative power of collective action continues inspiring innovative approaches to community development. <strong>[IV]</strong>
+                                        </p>
+                                        <p>
+                                            Volunteer programs demonstrate measurable impacts on both recipients and participants, creating <strong>reciprocal</strong> relationships that strengthen community bonds. Regular volunteers report increased life satisfaction, expanded social networks, and enhanced sense of purpose through service activities. Youth engagement in community service particularly benefits adolescent development by cultivating empathy, leadership skills, and civic responsibility while providing meaningful connections with adult mentors.
+                                        </p>
+                                        <p>
+                                            Local initiatives often succeed where large-scale institutional efforts falter, leveraging <strong>intimate</strong> knowledge of community dynamics and cultural sensitivities. <span className="underline decoration-2 decoration-amber-500 font-semibold">Neighborhood improvement projects, food security programs, and educational support networks emerge organically from resident-identified needs rather than top-down policy prescriptions.</span> However, sustaining volunteer momentum requires careful coordination, adequate resources, and recognition of contributors' efforts to prevent burnout and maintain participation levels.
+                                        </p>
+                                        <p>
+                                            Social media platforms have revolutionized volunteer recruitment and coordination, enabling rapid mobilization for emergency response and ongoing community projects. <strong>This digital connectivity</strong> facilitates cross-cultural collaboration and knowledge sharing between communities facing similar challenges. Nevertheless, online engagement cannot entirely replace face-to-face interactions essential for building trust and understanding among community members working toward common goals.
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Drag Resizer Bar */}
+                        <div className="resizer" onMouseDown={startResizing}></div>
+
+                        {/* Right Pane: Questions & Options */}
+                        <div 
+                            className="questions-pane custom-scrollbar selectable-text flex-1"
+                        >
+                            {/* PART 1 QUESTIONS */}
+                            {currentPart === 1 && (
+                                <div className="space-y-6">
+                                    {[
+                                        { q: 1, text: "Question 1.", opts: ["A. participate", "B. participating", "C. participation", "D. participated"] },
+                                        { q: 2, text: "Question 2.", opts: ["A. join", "B. to join", "C. joining", "D. joined"] },
+                                        { q: 3, text: "Question 3.", opts: ["A. at", "B. in", "C. on", "D. with"] },
+                                        { q: 4, text: "Question 4.", opts: ["A. big beautiful green", "B. green beautiful big", "C. beautiful big green", "D. big green beautiful"] },
+                                        { q: 5, text: "Question 5.", opts: ["A. take", "B. make", "C. give", "D. have"] },
+                                        { q: 6, text: "Question 6.", opts: ["A. wanted", "B. wanting", "C. who wanting", "D. who wants"] }
+                                    ].map(item => (
+                                        <div key={item.q} className="p-4 rounded-xl border bg-gray-50/50">
+                                            <p className="font-bold text-gray-900 mb-3">{item.text}</p>
+                                            <div className="grid grid-cols-2 gap-2">
+                                                {item.opts.map((opt, i) => {
+                                                    const letter = String.fromCharCode(65 + i);
+                                                    const isSelected = answers[item.q] === letter;
+                                                    return (
+                                                        <label 
+                                                            key={letter} 
+                                                            className={`idp-radio-label ${isSelected ? 'selected' : ''}`}
+                                                        >
+                                                            <input 
+                                                                type="radio" 
+                                                                name={`q_${item.q}`} 
+                                                                checked={isSelected}
+                                                                onChange={() => handleAnswerChange(item.q, letter)}
+                                                            />
+                                                            <span className="text-sm font-medium">{opt}</span>
+                                                        </label>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* PART 2 QUESTIONS */}
+                            {currentPart === 2 && (
+                                <div className="space-y-6">
+                                    {[
+                                        { q: 7, text: "Question 7.", opts: ["A. avoid", "B. solve", "C. create", "D. ignore"] },
+                                        { q: 8, text: "Question 8.", opts: ["A. turn away", "B. take on", "C. put down", "D. give up"] },
+                                        { q: 9, text: "Question 9.", opts: ["A. Rather than", "B. In case of", "C. Because of", "D. In spite of"] },
+                                        { q: 10, text: "Question 10.", opts: ["A. exclusive", "B. discriminatory", "C. welcoming", "D. restrictive"] },
+                                        { q: 11, text: "Question 11.", opts: ["A. few", "B. little", "C. many", "D. much"] },
+                                        { q: 12, text: "Question 12.", opts: ["A. amount", "B. quality", "C. level", "D. number"] }
+                                    ].map(item => (
+                                        <div key={item.q} className="p-4 rounded-xl border bg-gray-50/50">
+                                            <p className="font-bold text-gray-900 mb-3">{item.text}</p>
+                                            <div className="grid grid-cols-2 gap-2">
+                                                {item.opts.map((opt, i) => {
+                                                    const letter = String.fromCharCode(65 + i);
+                                                    const isSelected = answers[item.q] === letter;
+                                                    return (
+                                                        <label 
+                                                            key={letter} 
+                                                            className={`idp-radio-label ${isSelected ? 'selected' : ''}`}
+                                                        >
+                                                            <input 
+                                                                type="radio" 
+                                                                name={`q_${item.q}`} 
+                                                                checked={isSelected}
+                                                                onChange={() => handleAnswerChange(item.q, letter)}
+                                                            />
+                                                            <span className="text-sm font-medium">{opt}</span>
+                                                        </label>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* PART 3 QUESTIONS */}
+                            {currentPart === 3 && (
+                                <div className="space-y-6">
+                                    {/* Q13 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 13.</p>
+                                        <div className="bg-white p-3 rounded border text-sm space-y-1 text-gray-800">
+                                            <p>a. Mai: I’m collecting used books for the community shelf.</p>
+                                            <p>b. Phuc: I have several novels I finished last month.</p>
+                                            <p>c. Mai: Wonderful! Neighbors who love reading will appreciate them.</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {["A. c – a – b", "B. b – a – c", "C. a – c – b", "D. a – b – c"].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[13] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_13" checked={answers[13] === letter} onChange={() => handleAnswerChange(13, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q14 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 14.</p>
+                                        <div className="bg-white p-3 rounded border text-sm space-y-1 text-gray-800">
+                                            <p>a. Thu: The youth group plans a weekend class for seniors about smartphone safety.</p>
+                                            <p>b. Long: Great idea. Scams, which are getting smarter, confuse many people.</p>
+                                            <p>c. Thu: I’ll prepare examples and practice steps for checking links.</p>
+                                            <p>d. Long: I can arrange the room and ask for a projector.</p>
+                                            <p>e. Thu: Thanks; we’ll also print a checklist they can take home.</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {["A. a – c – b – d – e", "B. b – a – c – d – e", "C. a – b – c – d – e", "D. a – b – d – c – e"].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[14] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_14" checked={answers[14] === letter} onChange={() => handleAnswerChange(14, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q15 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 15.</p>
+                                        <div className="bg-white p-3 rounded border text-sm space-y-1 text-gray-800">
+                                            <p className="font-bold">Dear Ms. Chen,</p>
+                                            <p>a. Our goal is to provide weekend meals for families whose jobs were cut this season.</p>
+                                            <p>b. I’m writing to request support for the local pantry, which is facing high demand.</p>
+                                            <p>c. If your company can sponsor rice and cooking oil, we will add your logo to our flyers.</p>
+                                            <p>d. Volunteers will deliver packages discreetly so recipients feel respected.</p>
+                                            <p>e. Please contact me to discuss quantities and delivery schedules.</p>
+                                            <p className="font-bold pt-1">Sincerely,<br/>Michael Davis</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {["A. a – b – c – d – e", "B. b – a – d – c – e", "C. b – d – a – c – e", "D. b – a – c – d – e"].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[15] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_15" checked={answers[15] === letter} onChange={() => handleAnswerChange(15, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q16 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 16.</p>
+                                        <div className="bg-white p-3 rounded border text-sm space-y-1 text-gray-800">
+                                            <p>a. When residents meet regularly, trust increases, and projects run faster because decisions are shared.</p>
+                                            <p>b. A clean, safe neighborhood depends on small actions that many people repeat every day.</p>
+                                            <p>c. For instance, a weekly repair hour, which local carpenters lead, keeps benches and gates in good condition.</p>
+                                            <p>d. Moreover, a message board helps newcomers learn the rules for pets, noise, and parking.</p>
+                                            <p>e. Consequently, the block becomes friendlier, and children can play outside with confidence.</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {["A. b – a – c – d – e", "B. a – b – d – c – e", "C. b – d – c – a – e", "D. d – b – a – c – e"].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[16] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_16" checked={answers[16] === letter} onChange={() => handleAnswerChange(16, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q17 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 17.</p>
+                                        <div className="bg-white p-3 rounded border text-sm space-y-1 text-gray-800">
+                                            <p>a. Coordinator: We still need two more volunteers for Saturday’s soup station.</p>
+                                            <p>b. Member: I can take the early shift and bring disposable bowls.</p>
+                                            <p>c. Coordinator: Thank you; could you also label the vegetarian pots?</p>
+                                            <p>d. Member: Sure, that helps people choose quickly.</p>
+                                            <p>e. Coordinator: Perfect – see you at 7 a.m. at the community hall.</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {["A. a – b – c – d – e", "B. b – a – c – d – e", "C. a – c – b – d – e", "D. a – b – d – e – c"].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[17] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_17" checked={answers[17] === letter} onChange={() => handleAnswerChange(17, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* PART 4 QUESTIONS */}
+                            {currentPart === 4 && (
+                                <div className="space-y-6">
+                                    {/* Q18 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 18.</p>
+                                        <div className="space-y-2">
+                                            {[
+                                                "A. Communities, that rely on shared responsibility, often demonstrate remarkable resilience",
+                                                "B. Communities, whose rely on shared responsibility, often demonstrate remarkable resilience",
+                                                "C. Communities, which rely on shared responsibility, often demonstrate remarkable resilience",
+                                                "D. Communities, whom rely on shared responsibility, often demonstrate remarkable resilience"
+                                            ].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[18] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_18" checked={answers[18] === letter} onChange={() => handleAnswerChange(18, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q19 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 19.</p>
+                                        <div className="space-y-2">
+                                            {[
+                                                "A. Rarely local projects receive sufficient support without strong collaboration from multiple sectors",
+                                                "B. Rarely local projects had received sufficient support without strong collaboration from multiple sectors",
+                                                "C. Rarely do local projects receive sufficient support without strong collaboration from multiple sectors",
+                                                "D. Rarely local projects receives sufficient support without strong collaboration from multiple sectors"
+                                            ].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[19] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_19" checked={answers[19] === letter} onChange={() => handleAnswerChange(19, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q20 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 20.</p>
+                                        <div className="space-y-2">
+                                            {[
+                                                "A. Not only do leaders encourage civic participation, but they also inspire people to take ownership of change",
+                                                "B. Not only leaders encourage civic participation, but they also inspire people to take ownership of change",
+                                                "C. Not only leaders does encourage civic participation, but they also inspire people to take ownership of change",
+                                                "D. Not only leaders encouraging civic participation, but they also inspire people to take ownership of change"
+                                            ].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[20] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_20" checked={answers[20] === letter} onChange={() => handleAnswerChange(20, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q21 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 21.</p>
+                                        <div className="space-y-2">
+                                            {[
+                                                "A. grassroots organizations, which efforts are often overlooked, contribute significantly to local progress",
+                                                "B. grassroots organizations, whose efforts are often overlooked, contribute significantly to local progress",
+                                                "C. grassroots organizations, whom efforts are often overlooked, contribute significantly to local progress",
+                                                "D. grassroots organizations, that efforts are often overlooked, contribute significantly to local progress"
+                                            ].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[21] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_21" checked={answers[21] === letter} onChange={() => handleAnswerChange(21, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    {/* Q22 */}
+                                    <div className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                        <p className="font-bold text-gray-900">Question 22.</p>
+                                        <div className="space-y-2">
+                                            {[
+                                                "A. These collective achievements, although sometimes small, demonstrates the power of unity",
+                                                "B. These collective achievements, although sometimes small, demonstrate the power of unity",
+                                                "C. These collective achievements, although sometimes small, demonstrate the power of unite",
+                                                "D. These collective achievements, although sometimes small, demonstrating the power of unity"
+                                            ].map((opt, i) => {
+                                                const letter = String.fromCharCode(65 + i);
+                                                return (
+                                                    <label key={letter} className={`idp-radio-label ${answers[22] === letter ? 'selected' : ''}`}>
+                                                        <input type="radio" name="q_22" checked={answers[22] === letter} onChange={() => handleAnswerChange(22, letter)} />
+                                                        <span className="text-sm font-medium">{opt}</span>
+                                                    </label>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* PART 5 QUESTIONS */}
+                            {currentPart === 5 && (
+                                <div className="space-y-6">
+                                    {[
+                                        { q: 23, text: "Question 23. Which of the following best paraphrases the underlined sentence in paragraph 1?", opts: ["A. Grassroots programs allow people to help their communities through working together.", "B. Community initiatives let residents make important contributions through group efforts.", "C. These local programs help individuals contribute to development through shared work.", "D. Neighborhood projects enable people to impact communities through collaborative activities."] },
+                                        { q: 24, text: "Question 24. Which of the following is NOT mentioned as a common volunteer activity?", opts: ["A. educational support", "B. senior citizen care", "C. fundraising campaigns", "D. environmental projects"] },
+                                        { q: 25, text: "Question 25. The word substantial in paragraph 3 can be best replaced by ___________.", opts: ["A. significant", "B. minimal", "C. temporary", "D. questionable"] },
+                                        { q: 26, text: "Question 26. The word retention in paragraph 4 is opposite in meaning to ___________.", opts: ["A. recruitment", "B. departure", "C. maintenance", "D. involvement"] },
+                                        { q: 27, text: "Question 27. The word these in paragraph 1 refers to ___________.", opts: ["A. challenges", "B. residents", "C. initiatives", "D. mechanisms"] },
+                                        { q: 28, text: "Question 28. Which of the following is TRUE according to the passage?", opts: ["A. All volunteer programs automatically succeed without organizational support.", "B. Volunteering only benefits the recipients of community services.", "C. Participants in volunteer programs can gain professional development benefits.", "D. Resource limitations never affect the success of volunteer initiatives."] },
+                                        { q: 29, text: "Question 29. In which paragraph does the writer discuss benefits for volunteers themselves?", opts: ["A. Paragraph 1", "B. Paragraph 2", "C. Paragraph 3", "D. Paragraph 4"] },
+                                        { q: 30, text: "Question 30. In which paragraph does the writer mention challenges in program management?", opts: ["A. Paragraph 1", "B. Paragraph 2", "C. Paragraph 3", "D. Paragraph 4"] }
+                                    ].map(item => (
+                                        <div key={item.q} className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                            <p className="font-bold text-gray-900">{item.text}</p>
+                                            <div className="space-y-2">
+                                                {item.opts.map((opt, i) => {
+                                                    const letter = String.fromCharCode(65 + i);
+                                                    const isSelected = answers[item.q] === letter;
+                                                    return (
+                                                        <label key={letter} className={`idp-radio-label ${isSelected ? 'selected' : ''}`}>
+                                                            <input type="radio" name={`q_${item.q}`} checked={isSelected} onChange={() => handleAnswerChange(item.q, letter)} />
+                                                            <span className="text-sm font-medium">{opt}</span>
+                                                        </label>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* PART 6 QUESTIONS */}
+                            {currentPart === 6 && (
+                                <div className="space-y-6">
+                                    {[
+                                        { q: 31, text: "Question 31. Where in paragraph 1 does the following sentence best fit?\n\"These efforts demonstrate democracy's vitality through active citizen participation in local governance and problem-solving.\"", opts: ["A. [I]", "B. [II]", "C. [III]", "D. [IV]"] },
+                                        { q: 32, text: "Question 32. According to paragraph 2, which of the following is NOT mentioned as a benefit for regular volunteers?", opts: ["A. increased life satisfaction", "B. expanded social networks", "C. financial compensation", "D. enhanced sense of purpose"] },
+                                        { q: 33, text: "Question 33. Which of the following best summarises paragraph 3?", opts: ["A. Local community initiatives succeed through intimate knowledge and cultural sensitivity, though sustaining volunteer participation requires coordination, resources, and contributor recognition to prevent burnout.", "B. Neighborhood projects and food security programs emerge from resident needs rather than institutional policies, but maintaining volunteer involvement remains challenging without proper support systems.", "C. Community-driven initiatives outperform institutional efforts by addressing local dynamics and cultural factors, while volunteer sustainability depends on adequate coordination and resource allocation.", "D. Grassroots projects succeed where large institutions fail, creating organic solutions to community needs, though volunteer coordination and recognition remain secondary concerns for program effectiveness."] },
+                                        { q: 34, text: "Question 34. The phrase this digital connectivity in paragraph 4 refers to ___________.", opts: ["A. social media platforms revolutionizing volunteer recruitment", "B. emergency response and ongoing community projects", "C. cross-cultural collaboration and knowledge sharing", "D. communities facing similar challenges"] },
+                                        { q: 35, text: "Question 35. The word reciprocal in paragraph 2 is closest in meaning to ___________.", opts: ["A. one-sided", "B. mutual", "C. temporary", "D. complex"] },
+                                        { q: 36, text: "Question 36. Which of the following best paraphrases the underlined sentence in paragraph 3?", opts: ["A. Community enhancement initiatives, hunger relief efforts, and learning assistance systems develop naturally from local resident priorities instead of government-imposed policy directives.", "B. Local improvement projects, food assistance programs, and educational support systems arise spontaneously from community-identified requirements rather than institutional mandates.", "C. Neighborhood development projects, nutrition security initiatives, and educational support structures emerge naturally from resident-determined needs instead of bureaucratic policy requirements.", "D. Community improvement efforts, food security initiatives, and educational assistance networks develop organically from citizen-identified priorities rather than administrative policy decisions."] },
+                                        { q: 37, text: "Question 37. The word intimate in paragraph 3 is opposite in meaning to ___________.", opts: ["A. close", "B. detailed", "C. superficial", "D. personal"] },
+                                        { q: 38, text: "Question 38. Which of the following is TRUE according to the passage?", opts: ["A. Large-scale institutional efforts consistently outperform local community initiatives in addressing social challenges.", "B. Youth engagement in community service provides benefits for adolescent development including empathy cultivation and leadership skills.", "C. Online engagement through social media platforms can completely replace face-to-face interactions in community volunteer work.", "D. Volunteer programs create one-way relationships that primarily benefit recipients rather than participants in service activities."] },
+                                        { q: 39, text: "Question 39. Which of the following can be inferred from the passage?", opts: ["A. Community volunteerism requires no coordination or resources to maintain effective participation levels over time.", "B. Successful community development likely combines local knowledge and grassroots initiative with adequate organizational support and recognition systems.", "C. Social media eliminates all barriers to effective community organizing and volunteer coordination across different cultures.", "D. Top-down policy prescriptions are always more effective than resident-identified needs in addressing community challenges."] },
+                                        { q: 40, text: "Question 40. Which of the following best summarises the passage?", opts: ["A. Community volunteerism strengthens social cohesion by addressing local challenges through grassroots organizations, with local initiatives often succeeding through cultural knowledge while digital platforms enhance coordination despite requiring face-to-face interaction for trust-building.", "B. Volunteer programs create reciprocal relationships benefiting both participants and recipients, particularly through youth engagement in community service that develops leadership skills and civic responsibility.", "C. Local community initiatives leverage intimate knowledge to address resident-identified needs more effectively than institutional efforts, though sustaining volunteer participation requires careful coordination and adequate resources.", "D. Social media platforms revolutionize volunteer coordination and enable cross-cultural collaboration, while grassroots organizations mobilize citizens to tackle issues from poverty to environmental conservation."] }
+                                    ].map(item => (
+                                        <div key={item.q} className="p-4 rounded-xl border bg-gray-50/50 space-y-3">
+                                            <p className="font-bold text-gray-900 whitespace-pre-line">{item.text}</p>
+                                            <div className="space-y-2">
+                                                {item.opts.map((opt, i) => {
+                                                    const letter = String.fromCharCode(65 + i);
+                                                    const isSelected = answers[item.q] === letter;
+                                                    return (
+                                                        <label key={letter} className={`idp-radio-label ${isSelected ? 'selected' : ''}`}>
+                                                            <input type="radio" name={`q_${item.q}`} checked={isSelected} onChange={() => handleAnswerChange(item.q, letter)} />
+                                                            <span className="text-sm font-medium">{opt}</span>
+                                                        </label>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Notes Side Panel */}
+                        {isNotesOpen && (
+                            <div className="w-80 bg-gray-100 border-l border-gray-300 flex flex-col z-30 shadow-lg">
+                                <div className="p-3 bg-white border-b flex justify-between items-center font-bold text-gray-800">
+                                    <span>Ghi chú cá nhân</span>
+                                    <button onClick={() => setIsNotesOpen(false)} className="text-gray-500 hover:text-gray-800 text-lg">&times;</button>
+                                </div>
+                                <div className="p-3 flex-1 flex flex-col">
+                                    <p className="text-xs text-gray-500 mb-2">Các đoạn chữ Highlight sẽ được thêm tự động vào đây.</p>
+                                    <textarea 
+                                        className="w-full flex-1 p-3 border border-gray-300 rounded-lg resize-none text-sm focus:outline-none focus:ring-1 focus:ring-[#0f5132] bg-yellow-50 selectable-text"
+                                        placeholder="Nhập ghi chú của bạn ở đây..."
+                                        value={notesText}
+                                        onChange={(e) => setNotesText(e.target.value)}
+                                    ></textarea>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Footer Navigation Bar */}
+                    <footer className="test-footer">
+                        <div className="flex items-center space-x-2">
+                            {[
+                                { part: 1, label: "Dạng 1", range: [1, 6] },
+                                { part: 2, label: "Dạng 2", range: [7, 12] },
+                                { part: 3, label: "Dạng 3", range: [13, 17] },
+                                { part: 4, label: "Dạng 4", range: [18, 22] },
+                                { part: 5, label: "Dạng 5", range: [23, 30] },
+                                { part: 6, label: "Dạng 6", range: [31, 40] }
+                            ].map(p => (
+                                <button 
+                                    key={p.part}
+                                    onClick={() => setCurrentPart(p.part)}
+                                    className={`nav-part-btn ${currentPart === p.part ? 'active' : ''}`}
+                                >
+                                    {p.label} <span className="text-xs text-gray-500 ml-1">({countPartAnswered(p.range[0], p.range[1])}/{p.range[1] - p.range[0] + 1})</span>
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="flex items-center space-x-3">
+                            <div className="hidden lg:flex items-center overflow-x-auto max-w-md">
+                                {Array.from({ length: 40 }, (_, i) => i + 1).map(q => (
+                                    <span 
+                                        key={q} 
+                                        className={`q-square ${answers[q] ? 'answered' : ''}`}
+                                        onClick={() => {
+                                            if (q <= 6) setCurrentPart(1);
+                                            else if (q <= 12) setCurrentPart(2);
+                                            else if (q <= 17) setCurrentPart(3);
+                                            else if (q <= 22) setCurrentPart(4);
+                                            else if (q <= 30) setCurrentPart(5);
+                                            else setCurrentPart(6);
+                                        }}
+                                    >
+                                        {q}
+                                    </span>
+                                ))}
+                            </div>
+
+                            <button 
+                                onClick={handleSubmitTest}
+                                className="ml-2 bg-[#0f5132] hover:bg-[#0b3d26] text-white text-xs font-bold px-5 py-2.5 rounded-lg shadow transition-all flex items-center space-x-1"
+                            >
+                                <span>✓ NỘP BÀI THI</span>
+                            </button>
+                        </div>
+                    </footer>
+
+                    {/* Report Modal after submission */}
+                    {isSubmitted && (
+                        <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
+                            <div className="bg-white rounded-xl p-6 max-w-3xl w-full max-h-[92vh] overflow-y-auto custom-scrollbar">
+                                <div className="border-b pb-3 mb-4">
+                                    <h2 className="text-2xl font-black text-[#0f5132]">KẾT QUẢ BÀI THI THPT MÔN TIẾNG ANH - ĐỀ SỐ 04</h2>
+                                    <p className="text-xs text-gray-500">Hệ thống tự động chấm điểm và tổng hợp giải thích chi tiết</p>
+                                </div>
+                                
+                                {isSubmitting && (
+                                    <div className="p-3 bg-blue-50 text-blue-700 rounded-lg mb-4 text-center font-medium animate-pulse text-sm">
+                                        🔄 Đang đồng bộ kết quả lên Google Sheets (tab result)...
+                                    </div>
+                                )}
+                                {submitStatus && (
+                                    <div className="p-3 bg-green-50 text-green-800 rounded-lg mb-4 text-center font-bold text-sm">
+                                        {submitStatus}
+                                    </div>
+                                )}
+
+                                {(() => {
+                                    let correct = 0;
+                                    Object.keys(CORRECT_ANSWERS).forEach(qNum => {
+                                        if (answers[qNum] === CORRECT_ANSWERS[qNum]) {
+                                            correct += 1;
+                                        }
+                                    });
+                                    const score = (correct * 0.25).toFixed(2);
+
+                                    return (
+                                        <div>
+                                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-gray-50 p-4 rounded-xl text-center mb-6 border">
+                                                <div>
+                                                    <span className="block text-xs text-gray-500 font-semibold">MÃ THÍ SINH</span>
+                                                    <span className="font-bold text-base text-gray-800">{candidate.code}</span>
+                                                </div>
+                                                <div>
+                                                    <span className="block text-xs text-gray-500 font-semibold">HỌ TÊN</span>
+                                                    <span className="font-bold text-base text-gray-800">{candidate.name}</span>
+                                                </div>
+                                                <div>
+                                                    <span className="block text-xs text-gray-500 font-semibold">SỐ CÂU ĐÚNG</span>
+                                                    <span className="font-bold text-xl text-green-600">{correct} / 40</span>
+                                                </div>
+                                                <div>
+                                                    <span className="block text-xs text-gray-500 font-semibold">ĐIỂM SỐ</span>
+                                                    <span className="font-black text-2xl text-[#0f5132]">{score} / 10.0</span>
+                                                </div>
+                                            </div>
+
+                                            <h3 className="font-bold text-base text-gray-800 mb-3 border-b pb-1">Bảng Đáp Án & Giải Thích Chi Tiết:</h3>
+                                            <div className="space-y-2 text-xs">
+                                                {Object.keys(CORRECT_ANSWERS).map((qNum) => {
+                                                    const isCorr = answers[qNum] === CORRECT_ANSWERS[qNum];
+                                                    const userVal = answers[qNum] || 'Chưa làm';
+                                                    const keyVal = CORRECT_ANSWERS[qNum];
+                                                    const expl = EXPLANATIONS[qNum];
+
+                                                    return (
+                                                        <div key={qNum} className={`p-3 border rounded-lg ${isCorr ? 'bg-green-50/60 border-green-200' : 'bg-red-50/60 border-red-200'}`}>
+                                                            <div className="flex justify-between items-center mb-1">
+                                                                <span className="font-bold text-sm text-gray-900">Câu {qNum}:</span>
+                                                                <div>
+                                                                    <span className={`px-2 py-0.5 rounded font-bold ${isCorr ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'}`}>
+                                                                        Bạn chọn: {userVal}
+                                                                    </span>
+                                                                    <span className="ml-2 font-bold text-gray-700">Đáp án đúng: {keyVal}</span>
+                                                                </div>
+                                                            </div>
+                                                            <p className="text-gray-600 italic mt-1">💡 <strong>Giải thích:</strong> {expl}</p>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    );
+                                })()}
+
+                                <button 
+                                    onClick={() => window.location.reload()}
+                                    className="mt-6 w-full bg-gray-800 text-white py-3 rounded-lg font-bold hover:bg-black transition-colors"
+                                >
+                                    LÀM LẠI BÀI THI
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
